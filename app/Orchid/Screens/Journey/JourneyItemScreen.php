@@ -56,6 +56,9 @@ class JourneyItemScreen extends Screen
             'metrics.fuel_used'          => $fuelUsed,
             'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' ' . __('l/100 km'),
             'metrics.mileage'            => $mileage,
+            'journey.date_from'          => $journey->date_from->format('d.m.y'),
+            'journey.date_to'            => $journey->date_to->format('d.m.y'),
+            'journey.duration'           => $journey->date_to->diffInDays($journey->date_from),
         ];
     }
 
@@ -186,6 +189,12 @@ class JourneyItemScreen extends Screen
                 'Fuel Used'          => 'metrics.fuel_used',
                 'Total Mileage'      => 'metrics.mileage',
                 'Fuel Consumption'   => 'metrics.fuel_consumption',
+            ]),
+
+            Layout::metrics([
+                'Date From'       => 'journey.date_from',
+                'Date To'         => 'journey.date_to',
+                'Duration (days)' => 'journey.duration',
             ]),
         ];
     }

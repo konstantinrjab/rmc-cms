@@ -70,5 +70,6 @@
     "l/100 km": "л/100 км",
     "Date From": "Дата Початку",
     "Date To": "Дата Завершення",
+    "Duration (days)": "Тривалість (дні)",
     "To calculate fuel consumption please set fuel remains for first and last trips": "Щоб розрахувати витрату палива, встановіть залишки палива для першої та останньої поїздок"
 }
