@@ -256,20 +256,20 @@ Route::screen('journeys/{journey}/edit', \App\Orchid\Screens\Journey\JourneyEdit
             ->push(__('Journeys'), route('platform.journeys.edit', $user));
     });
 
-Route::screen('journeys/{journey}', \App\Orchid\Screens\Journey\JourneyItemScreen::class)
-    ->name('platform.journeys.item')
-    ->breadcrumbs(function (Trail $trail, $user) {
-        return $trail
-            ->parent('platform.journeys')
-            ->push(__('Journeys'), route('platform.journeys.item', $user));
-    });
-
 Route::screen('journeys/create', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
     ->name('platform.journeys.create')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.journeys')
             ->push(__('Create'), route('platform.journeys.create'));
+    });
+
+Route::screen('journeys/{journey}', \App\Orchid\Screens\Journey\JourneyItemScreen::class)
+    ->name('platform.journeys.item')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.journeys')
+            ->push(__('Journeys'), route('platform.journeys.item', $user));
     });
 
 

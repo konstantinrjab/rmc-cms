@@ -148,7 +148,11 @@ class JourneyItemScreen extends Screen
 
                 TD::make('status', 'Status')
                     ->render(function (Trip $trip) {
-                        return $trip->status;
+                        return match ($trip->status) {
+                            Trip::STATUS_ORDERED => '<span class="text-primary">ordered</span>',
+                            Trip::STATUS_DONE => '<span class="text-success">done</span>',
+                            Trip::STATUS_IN_PROGRESS => '<span class="text-warning">in progress</span>',
+                        };
                     }),
 
                 TD::make('mileage', 'Mileage')
@@ -179,7 +183,7 @@ class JourneyItemScreen extends Screen
 
             Layout::metrics([
                 'Fuel Replenishment' => 'metrics.fuel_replenishment',
-                'Fuel Used'      => 'metrics.fuel_used',
+                'Fuel Used'          => 'metrics.fuel_used',
                 'Total Mileage'      => 'metrics.mileage',
                 'Fuel Consumption'   => 'metrics.fuel_consumption',
             ]),

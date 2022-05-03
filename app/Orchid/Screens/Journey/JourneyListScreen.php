@@ -49,7 +49,9 @@ class JourneyListScreen extends Screen
 
     public function remove(Request $request): void
     {
-        Journey::findOrFail($request->get('id'))->delete();
+        $journey = Journey::findOrFail($request->get('id'));
+        $journey->trips()->dissociate();
+        $journey->delete();
 
         Toast::info(__('Journey was removed'));
     }

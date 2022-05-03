@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Journey;
 
 use App\Models\Journey;
+use App\Models\Trip;
 use App\Orchid\Layouts\Journey\JourneyEditLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Action;
@@ -121,6 +122,11 @@ class JourneyEditScreen extends Screen
             ->fill($data)
             ->save();
 
+        if ($data['trip_ids']) {
+            $journey->trips()->update(['journey_id' => null]);
+            Trip::whereIn('id', $data['trip_ids'])->update(['journey_id' => $journey->id]);
+        }
+
         Toast::info(__('Journey was saved.'));
 
         return redirect()->route('platform.journeys');
@@ -136,6 +142,7 @@ class JourneyEditScreen extends Screen
      */
     public function remove(Journey $journey)
     {
+        $journey->trips()->dissociate();
         $journey->delete();
 
         Toast::info(__('Journey was removed'));
