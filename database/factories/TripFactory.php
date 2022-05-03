@@ -18,6 +18,7 @@ class TripFactory extends Factory
     public function definition()
     {
         return [
+            'journey_id'       => 1,
             'client_id'        => 1,
             'employee_id'      => 1,
             'truck_id'         => 1,

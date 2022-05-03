@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Journey;
 use App\Models\Locality;
 use App\Models\Trip;
 use App\Models\Truck;
@@ -60,6 +61,9 @@ class DatabaseSeeder extends Seeder
         }
         $truckIds = Truck::select('id')->toBase()->get()->pluck('id')->toArray();
 
+        $journeys = Journey::factory(20)->create();
+        $journeyIds = $journeys->pluck('id')->toArray();
+
         $trips = Trip::factory(100)->make();
         foreach ($trips as $trip) {
             $trip->client_id = Arr::random($clientIds);
@@ -67,6 +71,11 @@ class DatabaseSeeder extends Seeder
             $trip->employee_id = Arr::random($employeeIds);
             $trip->locality_from_id = Arr::random($localityIds);
             $trip->locality_to_id = Arr::random($localityIds);
+            $trip->save();
+        }
+
+        foreach ($trips as $trip) {
+            $trip->journey_id = Arr::random($journeyIds);
             $trip->save();
         }
     }

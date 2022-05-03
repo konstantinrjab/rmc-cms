@@ -21,6 +21,7 @@ class Trip extends Model
     public const STATUS_DONE = 'done';
 
     protected $fillable = [
+        'journey_id',
         'client_id',
         'employee_id',
         'truck_id',
@@ -45,6 +46,7 @@ class Trip extends Model
      * @var array
      */
     protected $allowedSorts = [
+        'journey_id',
         'client_id',
         'employee_id',
         'truck_id',
@@ -59,6 +61,7 @@ class Trip extends Model
     ];
 
     protected $allowedFilters = [
+        'journey_id',
         'client_id',
         'employee_id',
         'truck_id',
@@ -95,5 +98,10 @@ class Trip extends Model
     public function localityTo(): BelongsTo
     {
         return $this->belongsTo(Locality::class, 'locality_to_id');
+    }
+
+    public function journey(): BelongsTo
+    {
+        return $this->belongsTo(Journey::class);
     }
 }

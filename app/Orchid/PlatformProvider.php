@@ -29,9 +29,13 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             Menu::make(__('Trips'))
-                ->icon('loop')
-                ->title('trips')
+                ->icon('arrow-right')
+                ->title('transportation')
                 ->route('platform.trips'),
+
+            Menu::make(__('Journeys'))
+                ->icon('loop')
+                ->route('platform.journeys'),
 
             Menu::make(__('Fuel Transactions'))
                 ->icon('drop')

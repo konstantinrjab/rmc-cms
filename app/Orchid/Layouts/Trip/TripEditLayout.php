@@ -8,9 +8,9 @@ use App\Helpers\ViewHelper;
 use App\Models\Client;
 use App\Models\Employee;
 use App\Models\Locality;
+use App\Models\Trip;
 use App\Models\Truck;
 use Orchid\Screen\Field;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 
@@ -76,6 +76,12 @@ class TripEditLayout extends Rows
                 ->options($localities)
                 ->title(__('Locality To'))
                 ->placeholder(__('Locality To')),
+
+            Select::make('trip.status')
+                ->required()
+                ->options(ViewHelper::selectOptions([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]))
+                ->title(__('Status'))
+                ->placeholder(__('Status')),
 
 //            Input::make('trip.position')
 //                ->type('text')

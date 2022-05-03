@@ -239,6 +239,31 @@ Route::screen('trips/create', \App\Orchid\Screens\Trip\TripEditScreen::class)
             ->push(__('Create'), route('platform.trips.create'));
     });
 
+// journeys
+Route::screen('journeys', \App\Orchid\Screens\Journey\JourneyListScreen::class)
+    ->name('platform.journeys')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Journeys'), route('platform.journeys'));
+    });
+
+Route::screen('journeys/{truck}/edit', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
+    ->name('platform.journeys.edit')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.journeys')
+            ->push(__('Journeys'), route('platform.journeys.edit', $user));
+    });
+
+Route::screen('Journeys/create', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
+    ->name('platform.journeys.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.journeys')
+            ->push(__('Create'), route('platform.journeys.create'));
+    });
+
 // fuel transactions
 Route::screen('fuel-transactions', \App\Orchid\Screens\Fuel\FuelTransactionListScreen::class)
     ->name('platform.fuel_transactions')

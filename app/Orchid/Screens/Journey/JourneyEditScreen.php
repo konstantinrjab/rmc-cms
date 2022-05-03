@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Screens\Trip;
+namespace App\Orchid\Screens\Journey;
 
-use App\Models\Trip;
-use App\Models\Truck;
-use App\Orchid\Layouts\Trip\TripEditLayout;
+use App\Models\Journey;
+use App\Orchid\Layouts\Journey\JourneyEditLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
@@ -15,24 +14,24 @@ use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class TripEditScreen extends Screen
+class JourneyEditScreen extends Screen
 {
     /**
-     * @var Trip
+     * @var Journey
      */
-    public Trip $trip;
+    public Journey $journey;
 
     /**
      * Query data.
      *
-     * @param Trip $trip
+     * @param Journey $journey
      *
      * @return array
      */
-    public function query(Trip $trip): iterable
+    public function query(Journey $journey): iterable
     {
         return [
-            'trip' => $trip,
+            'journey' => $journey,
         ];
     }
 
@@ -43,7 +42,7 @@ class TripEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->trip->exists ? 'Edit Trip' : 'Create Trip';
+        return $this->journey->exists ? 'Edit Journey' : 'Create Journey';
     }
 
     /**
@@ -53,7 +52,7 @@ class TripEditScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'Details such as name';
+        return 'Details such as name and position';
     }
 
     /**
@@ -62,7 +61,7 @@ class TripEditScreen extends Screen
     public function permission(): ?iterable
     {
         return [
-//            'platform.trips',
+//            'platform.journeys',
         ];
     }
 
@@ -74,11 +73,12 @@ class TripEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
+
             Button::make(__('Remove'))
                 ->icon('trash')
                 ->confirm(__('Once item is deleted, all of its resources and data will be permanently deleted.'))
                 ->method('remove')
-                ->canSee($this->trip->exists),
+                ->canSee($this->journey->exists),
 
             Button::make(__('Save'))
                 ->icon('check')
@@ -93,14 +93,14 @@ class TripEditScreen extends Screen
     {
         return [
 
-            Layout::block(TripEditLayout::class)
-                ->title(__('Client Information'))
-                ->description(__('Update trip information.'))
+            Layout::block(JourneyEditLayout::class)
+                ->title(__('Journey Information'))
+                ->description(__('Update the journey information.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())
                         ->icon('check')
-                        ->canSee($this->trip->exists)
+                        ->canSee($this->journey->exists)
                         ->method('save')
                 ),
 
@@ -108,43 +108,38 @@ class TripEditScreen extends Screen
     }
 
     /**
-     * @param Trip $trip
+     * @param Journey $journey
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save(Trip $trip, Request $request)
+    public function save(Journey $journey, Request $request)
     {
-        $data = $request->get('trip');
+        $data = $request->get('journey');
 
-        $trip
+        $journey
             ->fill($data)
             ->save();
 
-        if ($data['status'] == Trip::STATUS_IN_PROGRESS) {
-            $trip->truck->status = Truck::STATUS_ON_THE_WAY;
-            $trip->truck->save();
-        }
+        Toast::info(__('Journey was saved.'));
 
-        Toast::info(__('Trip was saved.'));
-
-        return redirect()->route('platform.trips');
+        return redirect()->route('platform.journeys');
     }
 
     /**
-     * @param Trip $trip
+     * @param Journey $journey
      *
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Exception
      *
      */
-    public function remove(Trip $trip)
+    public function remove(Journey $journey)
     {
-        $trip->delete();
+        $journey->delete();
 
-        Toast::info(__('Trip was removed'));
+        Toast::info(__('Journey was removed'));
 
-        return redirect()->route('platform.trips');
+        return redirect()->route('platform.journeys');
     }
 }

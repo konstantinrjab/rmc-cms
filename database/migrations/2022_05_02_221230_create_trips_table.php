@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('journey_id')->nullable();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('truck_id');
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->dateTime('finish_time');
             $table->timestamps();
 
+            $table->foreign('journey_id')->references('id')->on('journeys');
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->foreign('locality_from_id')->references('id')->on('localities');

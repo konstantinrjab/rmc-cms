@@ -18,6 +18,7 @@ class Truck extends Model
 
     public const STATUS_OK = 'ok';
     public const STATUS_UNDER_REPAIR = 'under repair';
+    public const STATUS_ON_THE_WAY = 'on the way';
 
     protected $fillable = [
         'name',
@@ -48,15 +49,5 @@ class Truck extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
-    }
-
-    public function isOnTheWay(): bool
-    {
-        $lastTrip = Trip::where(['truck_id' => $this->id])
-            ->whereNot('status', Trip::STATUS_ORDERED)
-            ->orderBy('start_time', 'desc')
-            ->first();
-
-        return $lastTrip && $lastTrip->status == Trip::STATUS_IN_PROGRESS;
     }
 }

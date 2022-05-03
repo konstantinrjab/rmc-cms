@@ -4,7 +4,6 @@ namespace App\Orchid\Layouts\Truck;
 
 use App\Helpers\ViewHelper;
 use App\Models\Employee;
-use App\Models\Trip;
 use App\Models\Truck;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -50,13 +49,10 @@ class TruckListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Truck::STATUS_OK, Truck::STATUS_UNDER_REPAIR]))
                 ->render(function (Truck $truck) {
-                    if ($truck->isOnTheWay()) {
-                        return '<span class="text-success">on the way</span>';
-                    }
-
                     return match($truck->status) {
                         Truck::STATUS_UNDER_REPAIR => '<span class="text-danger">under repair</span>',
                         Truck::STATUS_OK => '<span class="text-info">ok</span>',
+                        Truck::STATUS_ON_THE_WAY => '<span class="text-success">on he way</span>',
                     };
                 }),
 
