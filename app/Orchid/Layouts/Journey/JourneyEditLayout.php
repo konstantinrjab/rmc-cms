@@ -33,15 +33,15 @@ class JourneyEditLayout extends Rows
                 ->required()
                 ->format24hr()
                 ->enableTime()
-                ->title('Date From')
-                ->help('Date From'),
+                ->title(__('Date From'))
+                ->help(__('Date From')),
 
             DateTimer::make('journey.date_to')
                 ->required()
                 ->format24hr()
                 ->enableTime()
-                ->title('Date To')
-                ->help('Date To'),
+                ->title(__('Date To'))
+                ->help(__('Date To')),
         ];
     }
 }
