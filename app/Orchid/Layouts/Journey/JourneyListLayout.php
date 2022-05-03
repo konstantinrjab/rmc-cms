@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Layouts\Journey;
 
+use App\Helpers\ViewHelper;
 use App\Models\Journey;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -24,7 +25,7 @@ class JourneyListLayout extends Table
                 ->cantHide()
                 ->filter(Input::make())
                 ->render(function (Journey $journey) {
-                    return '<a href="' . route('platform.journeys.item', $journey->id) . '">' . $journey->name . '</a>';
+                    return '<a href="' . route('platform.journeys.item', $journey->id) . '">' . ViewHelper::formatJourneyName($journey) . '</a>';
                 }),
 
             TD::make(__('Actions'))

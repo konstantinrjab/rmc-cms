@@ -77,7 +77,7 @@ class TripListLayout extends Table
                     return match($trip->status) {
                         Trip::STATUS_ORDERED => '<span class="text-primary">' . __(Trip::STATUS_ORDERED) . '</span>',
                         Trip::STATUS_DONE => '<span class="text-success">' . __(Trip::STATUS_DONE) . '</span>',
-                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">in ' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
+                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
                     };
                 }),
 

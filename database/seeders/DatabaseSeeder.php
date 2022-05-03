@@ -6,6 +6,7 @@ use App\Models\Journey;
 use App\Models\Locality;
 use App\Models\Trip;
 use App\Models\Truck;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Factory::create();
+
         $admin = \App\Models\User::create([
             'name'        => 'admin',
             'email'       => 'admin@admin.loc',
@@ -61,22 +64,25 @@ class DatabaseSeeder extends Seeder
         }
         $truckIds = Truck::select('id')->toBase()->get()->pluck('id')->toArray();
 
-        $journeys = Journey::factory(20)->create();
+        $journeys = Journey::factory(20)->make();
+        foreach ($journeys as $journey) {
+            $journey->employee_id = Arr::random($employeeIds);
+            $journey->save();
+
+            $trips = Trip::factory(rand(3, 5))->make();
+            foreach ($trips as $trip) {
+                $trip->client_id = Arr::random($clientIds);
+                $trip->truck_id = Arr::random($truckIds);
+                $trip->employee_id = $journey->employee_id;
+                $trip->locality_from_id = Arr::random($localityIds);
+                $trip->locality_to_id = Arr::random($localityIds);
+                $trip->start_time = $faker->dateTimeBetween($journey->date_from, $journey->date_to);
+                $trip->finish_time = Arr::random($localityIds);
+                $trip->journey_id = $journey->id;
+                $trip->save();
+            }
+        }
         $journeyIds = $journeys->pluck('id')->toArray();
-
-        $trips = Trip::factory(100)->make();
-        foreach ($trips as $trip) {
-            $trip->client_id = Arr::random($clientIds);
-            $trip->truck_id = Arr::random($truckIds);
-            $trip->employee_id = Arr::random($employeeIds);
-            $trip->locality_from_id = Arr::random($localityIds);
-            $trip->locality_to_id = Arr::random($localityIds);
-            $trip->save();
-        }
-
-        foreach ($trips as $trip) {
-            $trip->journey_id = Arr::random($journeyIds);
-            $trip->save();
-        }
     }
 }
+

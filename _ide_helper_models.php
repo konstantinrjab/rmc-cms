@@ -106,9 +106,12 @@ namespace App\Models{
  * App\Models\Journey
  *
  * @property int $id
- * @property string $name
+ * @property int $employee_id
+ * @property \Illuminate\Support\Carbon $date_from
+ * @property \Illuminate\Support\Carbon $date_to
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Employee $employee
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
  * @property-read int|null $trips_count
  * @method static \Illuminate\Database\Eloquent\Builder|Journey defaultSort(string $column, string $direction = 'asc')
@@ -120,8 +123,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Journey newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Journey query()
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereDateFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereDateTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Journey whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereUpdatedAt($value)
  */
 	class IdeHelperJourney {}

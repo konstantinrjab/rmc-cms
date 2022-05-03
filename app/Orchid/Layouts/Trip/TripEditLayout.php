@@ -81,6 +81,7 @@ class TripEditLayout extends Rows
 
             Input::make('trip.mileage')
                 ->type('number')
+                ->required()
                 ->title(__('Mileage'))
                 ->placeholder(__('Mileage')),
 

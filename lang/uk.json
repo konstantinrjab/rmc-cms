@@ -53,6 +53,9 @@
     "Region": "Область",
     "District": "Район",
     "Mileage": "Пробіг",
+    "Total Mileage": "Загальний Пробіг",
+    "Fuel Used": "Витрачено палива",
+    "Fuel Replenishment": "Додано палива",
     "Fuel Remains": "Залишок палива",
     "Fuel Refill": "Заправка",
     "Start Time": "Час початку",
@@ -63,5 +66,7 @@
     "Actions": "Дії",
     "ordered": "замовлено",
     "done": "завершено",
-    "in progress": "в процесі"
+    "in progress": "в процесі",
+    "l/100 km": "л/100 км",
+    "To calculate fuel consumption please set fuel remains for first and last trips": "Щоб розрахувати витрату палива, встановіть залишки палива для першої та останньої поїздок"
 }

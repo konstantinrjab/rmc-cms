@@ -17,7 +17,9 @@ class JourneyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence,
+            'employee_id' => 1,
+            'date_from'   => $this->faker->dateTimeBetween('-1 week', '-5 days'),
+            'date_to'     => $this->faker->dateTimeBetween('-5 days', '-1 day'),
         ];
     }
 }

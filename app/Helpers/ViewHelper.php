@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Journey;
 use App\Models\Locality;
 use App\Models\Trip;
 use App\Models\Truck;
@@ -17,6 +18,11 @@ class ViewHelper
     public static function formatTruckName(Truck $truck): string
     {
         return $truck->name . ': ' . $truck->number;
+    }
+
+    public static function formatJourneyName(Journey $journey): string
+    {
+        return $journey->employee->name . ': ' . $journey->date_from->format('y.m.d');
     }
 
     public static function formatTripName(Trip $trip): string

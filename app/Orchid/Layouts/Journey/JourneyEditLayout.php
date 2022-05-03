@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Journey;
 
-use App\Helpers\ViewHelper;
-use App\Models\Trip;
+use App\Models\Employee;
 use Orchid\Screen\Field;
-use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 
@@ -20,37 +19,29 @@ class JourneyEditLayout extends Rows
      */
     public function fields(): array
     {
-        $journey = $this->query->get('journey');
-
-        $trips = Trip::orderBy('start_time')
-            ->get()
-            ->keyBy('id')
-            ->map(function (Trip $trip) {
-                return ViewHelper::formatTripName($trip);
-            });
-
-        $selectedTrips = $journey
-            ? $journey->trips->keyBy('id')
-                ->map(fn(Trip $trip) => ViewHelper::formatTripName($trip))
-                ->keys()
-                ->toArray()
-            : [];
+        $employees = Employee::all()->keyBy('id')->map(fn($e) => $e->name)->toArray();
 
         return [
-            Input::make('journey.name')
-                ->type('text')
-                ->max(255)
+            Select::make('journey.employee_id')
                 ->required()
-                ->title(__('Name'))
-                ->placeholder(__('Name')),
+                ->empty()
+                ->options($employees)
+                ->title(__('Employee'))
+                ->placeholder(__('Employee')),
 
-            Select::make('journey.trip_ids')
-                ->options($trips)
-                ->value($selectedTrips)
-                ->multiple()
+            DateTimer::make('journey.date_from')
                 ->required()
-                ->title(__('Trips'))
-                ->placeholder(__('Trips')),
+                ->format24hr()
+                ->enableTime()
+                ->title('Date From')
+                ->help('Date From'),
+
+            DateTimer::make('journey.date_to')
+                ->required()
+                ->format24hr()
+                ->enableTime()
+                ->title('Date To')
+                ->help('Date To'),
         ];
     }
 }

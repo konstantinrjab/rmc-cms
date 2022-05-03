@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
@@ -17,7 +18,14 @@ class Journey extends Model
     use HasFactory, AsSource, Attachable, Filterable;
 
     protected $fillable = [
-        'name'
+        'employee_id',
+        'date_from',
+        'date_to',
+    ];
+
+    protected $casts = [
+        'date_from' => 'datetime',
+        'date_to' => 'datetime',
     ];
 
     /**
@@ -26,12 +34,21 @@ class Journey extends Model
      * @var array
      */
     protected $allowedSorts = [
-        'name'
+        'employee_id',
+        'date_from',
+        'date_to',
     ];
 
     protected $allowedFilters = [
-        'name'
+        'employee_id',
+        'date_from',
+        'date_to',
     ];
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
     public function trips(): HasMany
     {

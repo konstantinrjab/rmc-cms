@@ -111,10 +111,13 @@ class JourneyEditScreen extends Screen
             ->fill($data)
             ->save();
 
-        if ($data['trip_ids']) {
-            $journey->trips()->update(['journey_id' => null]);
-            Trip::whereIn('id', $data['trip_ids'])->update(['journey_id' => $journey->id]);
-        }
+        $trips = Trip::where('start_time', '>=', $data['date_from'])
+            ->where('finish_time', '<=', $data['date_to'])
+            ->where(['employee_id' => $data['employee_id']])
+            ->whereNull('journey_id')
+            ->get();
+
+        Trip::whereIn('id', $trips->pluck('id'))->update(['journey_id' => $journey->id]);
 
         Toast::info(__('Journey was saved.'));
 

@@ -44,7 +44,7 @@ class JourneyItemScreen extends Screen
         $finishFuel = $trips->last()->fuel_remains;
 
         if (!$startFuel || !$finishFuel) {
-            Toast::warning('To calculate fuel consumption please fill fuel remains for first and last trips');
+            Toast::warning(__('To calculate fuel consumption please set fuel remains for first and last trips'));
         }
 
         $fuelUsed = $startFuel && $finishFuel ? $startFuel - $finishFuel + $fuelReplenishment : null;
@@ -54,7 +54,7 @@ class JourneyItemScreen extends Screen
             'journey.trips'              => $trips,
             'metrics.fuel_replenishment' => $fuelReplenishment,
             'metrics.fuel_used'          => $fuelUsed,
-            'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' l/km',
+            'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' ' . __('l/100 km'),
             'metrics.mileage'            => $mileage,
         ];
     }
@@ -116,66 +116,66 @@ class JourneyItemScreen extends Screen
 
             Layout::table('journey.trips', [
 
-                TD::make('trip_id', 'ID')
+                TD::make('trip_id', __('ID'))
                     ->render(function (Trip $trip) {
                         return '<a href="' . route('platform.trips.edit', $trip->id) . '">' . $trip->id . '</a>';
                     }),
 
-                TD::make('client_id', 'Client')
+                TD::make('client_id', __('Client'))
                     ->render(function (Trip $trip) {
                         return $trip->client->name;
                     }),
 
-                TD::make('employee_id', 'Client')
+                TD::make('employee_id', __('Client'))
                     ->render(function (Trip $trip) {
                         return $trip->employee->name;
                     }),
 
-                TD::make('truck_id', 'Truck')
+                TD::make('truck_id', __('Truck'))
                     ->render(function (Trip $trip) {
                         return ViewHelper::formatTruckName($trip->truck);
                     }),
 
-                TD::make('locality_from_id', 'Locality From')
+                TD::make('locality_from_id', __('Locality From'))
                     ->render(function (Trip $trip) {
                         return $trip->localityFrom->name;
                     }),
 
-                TD::make('locality_to_id', 'Locality To')
+                TD::make('locality_to_id', __('Locality To'))
                     ->render(function (Trip $trip) {
                         return $trip->localityTo->name;
                     }),
 
-                TD::make('status', 'Status')
+                TD::make('status', __('Status'))
                     ->render(function (Trip $trip) {
                         return match ($trip->status) {
-                            Trip::STATUS_ORDERED => '<span class="text-primary">ordered</span>',
-                            Trip::STATUS_DONE => '<span class="text-success">done</span>',
-                            Trip::STATUS_IN_PROGRESS => '<span class="text-warning">in progress</span>',
+                            Trip::STATUS_ORDERED => '<span class="text-primary">' . __(Trip::STATUS_ORDERED) . '</span>',
+                            Trip::STATUS_DONE => '<span class="text-success">' . __(Trip::STATUS_DONE) . '</span>',
+                            Trip::STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
                         };
                     }),
 
-                TD::make('mileage', 'Mileage')
+                TD::make('mileage', __('Mileage'))
                     ->render(function (Trip $trip) {
                         return $trip->mileage;
                     }),
 
-                TD::make('fuel_remains', 'Fuel Remains')
+                TD::make('fuel_remains', __('Fuel Remains'))
                     ->render(function (Trip $trip) {
                         return $trip->fuel_remains;
                     }),
 
-                TD::make('fuel_refill', 'Fuel Refill')
+                TD::make('fuel_refill', __('Fuel Refill'))
                     ->render(function (Trip $trip) {
                         return $trip->fuel_refill;
                     }),
 
-                TD::make('start_time', 'Start time')
+                TD::make('start_time', __('Start Time'))
                     ->render(function (Trip $trip) {
                         return $trip->start_time;
                     }),
 
-                TD::make('finish_time', 'Finish time')
+                TD::make('finish_time', __('Finish Time'))
                     ->render(function (Trip $trip) {
                         return $trip->finish_time;
                     }),

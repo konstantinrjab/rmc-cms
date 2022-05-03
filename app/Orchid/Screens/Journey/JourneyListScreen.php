@@ -15,7 +15,7 @@ class JourneyListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'journeys' => Journey::filters()->defaultSort('name')->paginate(),
+            'journeys' => Journey::filters()->defaultSort('date_from', 'desc')->paginate(),
         ];
     }
 
