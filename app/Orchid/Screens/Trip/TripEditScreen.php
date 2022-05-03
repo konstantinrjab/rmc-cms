@@ -114,7 +114,7 @@ class TripEditScreen extends Screen
      */
     public function save(Trip $trip, Request $request)
     {
-        $data = $request->get('client');
+        $data = $request->get('trip');
 
         $trip
             ->fill($data)
@@ -122,7 +122,7 @@ class TripEditScreen extends Screen
 
         Toast::info(__('Trip was saved.'));
 
-        return redirect()->route('platform.clients');
+        return redirect()->route('platform.trips');
     }
 
     /**

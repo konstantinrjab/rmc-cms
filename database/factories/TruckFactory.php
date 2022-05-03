@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Truck;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,7 @@ class TruckFactory extends Factory
         return [
             'name'   => $this->faker->randomElement(['Reno', 'Volvo', 'Mercedes']) . ' ' . ucfirst($this->faker->word()),
             'number' => strtoupper($number),
+            'status' => $this->faker->randomElement([Truck::STATUS_OK, Truck::STATUS_UNDER_REPAIR]),
         ];
     }
 }

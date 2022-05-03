@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Layouts\Fuel;
 
+use App\Helpers\ViewHelper;
 use App\Models\Employee;
 use App\Models\FuelTransaction;
 use Orchid\Screen\Actions\Button;
@@ -30,7 +31,7 @@ class FuelTransactionListLayout extends Table
 
             TD::make('transaction_type', __('Transaction Type'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, array_combine($types = [FuelTransaction::TYPE_SALE, FuelTransaction::TYPE_PURCHASE], $types))
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([FuelTransaction::TYPE_SALE, FuelTransaction::TYPE_PURCHASE]))
                 ->render(function (FuelTransaction $transaction) {
                     return $transaction->transaction_type;
                 }),

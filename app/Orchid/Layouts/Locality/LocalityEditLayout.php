@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Locality;
 
+use App\Helpers\ViewHelper;
 use App\Models\Locality;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
@@ -30,7 +31,7 @@ class LocalityEditLayout extends Rows
                 ->placeholder(__('Name')),
 
             Select::make('locality.region')
-                ->options(array_combine($regions, $regions))
+                ->options(ViewHelper::selectOptions($regions))
                 ->required()
                 ->title(__('Region'))
                 ->placeholder(__('Region')),

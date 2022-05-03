@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Layouts\Truck;
 
+use App\Helpers\ViewHelper;
+use App\Models\Employee;
+use App\Models\Trip;
 use App\Models\Truck;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -18,6 +21,8 @@ class TruckListLayout extends Table
 
     public function columns(): array
     {
+        $employees = Employee::all();
+
         return [
             TD::make('name', __('Name'))
                 ->sort()
@@ -36,9 +41,23 @@ class TruckListLayout extends Table
 
             TD::make('employee_id', __('Employee'))
                 ->sort()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->pluck('name'))
                 ->render(function (Truck $truck) {
                     return $truck->employee?->name;
+                }),
+
+            TD::make('status', __('Status'))
+                ->sort()
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Truck::STATUS_OK, Truck::STATUS_UNDER_REPAIR]))
+                ->render(function (Truck $truck) {
+                    if ($truck->isOnTheWay()) {
+                        return '<span class="text-success">on the way</span>';
+                    }
+
+                    return match($truck->status) {
+                        Truck::STATUS_UNDER_REPAIR => '<span class="text-danger">under repair</span>',
+                        Truck::STATUS_OK => '<span class="text-info">ok</span>',
+                    };
                 }),
 
             TD::make(__('Actions'))

@@ -15,9 +15,14 @@ class Employee extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
+    public const STATUS_OK = 'ok';
+    public const STATUS_ILL = 'ill';
+    public const STATUS_FIRED = 'fired';
+
     protected $fillable = [
         'name',
         'position',
+        'status',
     ];
 
     /**
@@ -28,10 +33,12 @@ class Employee extends Model
     protected $allowedSorts = [
         'name',
         'position',
+        'status',
     ];
 
     protected $allowedFilters = [
         'name',
         'position',
+        'status',
     ];
 }

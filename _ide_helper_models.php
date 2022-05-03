@@ -30,7 +30,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperClient {}
 }
@@ -42,6 +41,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string|null $position
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Employee defaultSort(string $column, string $direction = 'asc')
@@ -56,8 +56,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperEmployee {}
 }
@@ -97,7 +97,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereTransactionType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperFuelTransaction {}
 }
@@ -129,7 +128,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Locality whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Locality whereRegion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Locality whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperLocality {}
 }
@@ -179,7 +177,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTruckId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperTrip {}
 }
@@ -191,6 +188,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $number
+ * @property string $status
  * @property int|null $employee_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -208,8 +206,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Truck whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Truck whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Truck whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Truck whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Truck whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperTruck {}
 }
@@ -257,7 +255,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePermissions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperUser {}
 }

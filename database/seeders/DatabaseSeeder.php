@@ -49,12 +49,13 @@ class DatabaseSeeder extends Seeder
 
         foreach ($chunks as $chunk) {
             DB::table('localities')->insert($chunk->toArray());
+            break;
         }
         $localityIds = Locality::select('id')->toBase()->get()->pluck('id')->toArray();
 
         $trucks = Truck::factory(20)->make();
         foreach ($trucks as $truck) {
-            $trucks->employee_id = Arr::random($employeeIds);
+            $truck->employee_id = Arr::random($employeeIds);
             $truck->save();
         }
         $truckIds = Truck::select('id')->toBase()->get()->pluck('id')->toArray();

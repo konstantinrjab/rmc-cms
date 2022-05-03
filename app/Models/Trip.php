@@ -16,6 +16,10 @@ class Trip extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
+    public const STATUS_ORDERED = 'ordered';
+    public const STATUS_IN_PROGRESS = 'in progress';
+    public const STATUS_DONE = 'done';
+
     protected $fillable = [
         'client_id',
         'employee_id',

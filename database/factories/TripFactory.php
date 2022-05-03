@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Orchid\Layouts\Trip\TripStatus;
+use App\Models\Trip;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +23,7 @@ class TripFactory extends Factory
             'truck_id'         => 1,
             'locality_from_id' => 1,
             'locality_to_id'   => 1,
-            'status'           => $this->faker->randomElement(TripStatus::values()),
+            'status'           => $this->faker->randomElement([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]),
             'mileage'          => $this->faker->randomNumber(3),
             'fuel_remains'     => $this->faker->numberBetween(50, 1000),
             'fuel_refill'      => $this->faker->numberBetween(50, 200),

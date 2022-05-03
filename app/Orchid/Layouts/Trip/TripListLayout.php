@@ -39,7 +39,7 @@ class TripListLayout extends Table
                 ->cantHide()
                 ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->pluck('name'))
                 ->render(function (Trip $trip) {
-                    return $trip->employee->name;
+                    return $trip->employee?->name;
                 }),
 
             TD::make('truck_id', __('Truck'))
@@ -70,9 +70,9 @@ class TripListLayout extends Table
                 ->filter(Input::make())
                 ->render(function (Trip $trip) {
                     return match($trip->status) {
-                        TripStatus::ORDERED->name => '<span class="text-primary">ordered</span>',
-                        TripStatus::DONE->name => '<span class="text-success">done</span>',
-                        TripStatus::IN_PROGRESS->name=> '<span class="text-warning">in progress</span>',
+                        Trip::STATUS_ORDERED => '<span class="text-primary">ordered</span>',
+                        Trip::STATUS_DONE => '<span class="text-success">done</span>',
+                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">in progress</span>',
                     };
                 }),
 
