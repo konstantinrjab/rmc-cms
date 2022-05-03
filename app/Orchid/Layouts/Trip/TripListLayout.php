@@ -75,9 +75,9 @@ class TripListLayout extends Table
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]))
                 ->render(function (Trip $trip) {
                     return match($trip->status) {
-                        Trip::STATUS_ORDERED => '<span class="text-primary">ordered</span>',
-                        Trip::STATUS_DONE => '<span class="text-success">done</span>',
-                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">in progress</span>',
+                        Trip::STATUS_ORDERED => '<span class="text-primary">' . __(Trip::STATUS_ORDERED) . '</span>',
+                        Trip::STATUS_DONE => '<span class="text-success">' . __(Trip::STATUS_DONE) . '</span>',
+                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">in ' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
                     };
                 }),
 

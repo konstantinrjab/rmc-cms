@@ -44,7 +44,7 @@ class FuelTransactionAnalyticsScreen extends Screen
 
     public function name(): ?string
     {
-        return __('Fuel Transactions Analytics');
+        return __('Fuel Analytics');
     }
 
     public function layout(): iterable

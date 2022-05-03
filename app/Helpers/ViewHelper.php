@@ -11,7 +11,7 @@ class ViewHelper
 {
     public static function selectOptions(array $options): array
     {
-        return array_combine($options, $options);
+        return array_combine($options, array_map('__', $options));
     }
 
     public static function formatTruckName(Truck $truck): string
@@ -29,7 +29,7 @@ class ViewHelper
 
     public static function formatLocality(Locality $locality): string
     {
-        $name = $locality->name . ' (' . $locality->region;
+        $name = $locality->name . ' (' . __($locality->region);
 
         return $locality->district ?  $name . ', ' . $locality->district . ')' :  $name . ')';
     }

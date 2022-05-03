@@ -43,7 +43,7 @@ class TripEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return ($this->trip->exists ? __('Edit') : __('Create')) . ': ' . __('Client');
+        return ($this->trip->exists ? __('Edit') : __('Create')) . ': ' . __('Trip');
     }
 
     /**
@@ -84,8 +84,7 @@ class TripEditScreen extends Screen
         return [
 
             Layout::block(TripEditLayout::class)
-                ->title(__('Trip Information'))
-                ->description(__('Update trip information.'))
+                ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())
