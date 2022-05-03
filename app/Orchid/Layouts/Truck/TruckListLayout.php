@@ -40,7 +40,7 @@ class TruckListLayout extends Table
 
             TD::make('employee_id', __('Employee'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->pluck('name'))
+                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->map(fn($e) => $e->name))
                 ->render(function (Truck $truck) {
                     return $truck->employee?->name;
                 }),

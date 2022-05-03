@@ -24,7 +24,7 @@ class FuelTransactionListLayout extends Table
         return [
             TD::make('subject_id', __('Subject'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->pluck('name'))
+                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->map(fn($e) => $e->name))
                 ->render(function (FuelTransaction $transaction) {
                     return $transaction->subject->name;
                 }),

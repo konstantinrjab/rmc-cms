@@ -22,7 +22,7 @@ class FuelTransactionEditLayout extends Rows
     public function fields(): array
     {
         $employees = Employee::all()->keyBy('id');
-        $employeesOptions = $employees->pluck('name');
+        $employeesOptions = $employees->map(fn($e) => $e->name);
 
         return [
             Select::make('fuelTransaction.transaction_type')

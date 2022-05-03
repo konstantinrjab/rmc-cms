@@ -54,7 +54,7 @@ class JourneyItemScreen extends Screen
             'journey.trips'              => $trips,
             'metrics.fuel_replenishment' => $fuelReplenishment,
             'metrics.fuel_used'          => $fuelUsed,
-            'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage, 2) . ' l/km',
+            'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' l/km',
             'metrics.mileage'            => $mileage,
         ];
     }

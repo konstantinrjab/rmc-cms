@@ -25,9 +25,9 @@ class TripEditLayout extends Rows
      */
     public function fields(): array
     {
-        $clients = Client::all()->keyBy('id')->pluck('name')->toArray();
-        $employees = Employee::all()->keyBy('id')->pluck('name')->toArray();
-        $trucks = Truck::all()->keyBy('id')->pluck('name')->toArray();
+        $clients = Client::all()->keyBy('id')->map(fn($e) => $e->name)->toArray();
+        $employees = Employee::all()->keyBy('id')->map(fn($e) => $e->name)->toArray();
+        $trucks = Truck::all()->keyBy('id')->map(fn($e) => ViewHelper::formatTruckName($e))->toArray();
 
         $localities = [];
 
@@ -37,42 +37,44 @@ class TripEditLayout extends Rows
 
         return [
 
-
-//            'start_time',
-//            'finish_time',
-
             Select::make('trip.client_id')
                 ->required()
+                ->empty()
                 ->options($clients)
                 ->title(__('Client'))
                 ->placeholder(__('Client')),
 
             Select::make('trip.employee_id')
                 ->required()
+                ->empty()
                 ->options($employees)
                 ->title(__('Employee'))
                 ->placeholder(__('Employee')),
 
             Select::make('trip.truck_id')
                 ->required()
+                ->empty()
                 ->options($trucks)
                 ->title(__('Trucks'))
                 ->placeholder(__('Trucks')),
 
             Select::make('trip.locality_from_id')
                 ->required()
+                ->empty(__('No select'))
                 ->options($localities)
                 ->title(__('Locality From'))
                 ->placeholder(__('Locality From')),
 
-            Select::make('trip.locality_from_to')
+            Select::make('trip.locality_to_id')
                 ->required()
+                ->empty()
                 ->options($localities)
                 ->title(__('Locality To'))
                 ->placeholder(__('Locality To')),
 
             Select::make('trip.status')
                 ->required()
+                ->empty()
                 ->options(ViewHelper::selectOptions([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]))
                 ->title(__('Status'))
                 ->placeholder(__('Status')),

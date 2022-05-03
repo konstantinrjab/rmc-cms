@@ -30,7 +30,7 @@ class TripListLayout extends Table
         return [
             TD::make('client_id', __('Client'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, $clients->keyBy('id')->pluck('name'))
+                ->filter(TD::FILTER_SELECT, $clients->keyBy('id')->map(fn($e) => $e->name))
                 ->render(function (Trip $trip) {
                     return $trip->client->name;
                 }),
@@ -38,7 +38,7 @@ class TripListLayout extends Table
             TD::make('employee_id', __('Employee'))
                 ->sort()
                 ->cantHide()
-                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->pluck('name'))
+                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->map(fn($e) => $e->name))
                 ->render(function (Trip $trip) {
                     return $trip->employee?->name;
                 }),

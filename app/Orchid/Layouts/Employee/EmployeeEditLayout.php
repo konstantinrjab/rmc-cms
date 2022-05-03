@@ -36,6 +36,7 @@ class EmployeeEditLayout extends Rows
             Select::make('employee.status')
                 ->options(ViewHelper::selectOptions([Employee::STATUS_OK, Employee::STATUS_ILL, Employee::STATUS_FIRED]))
                 ->required()
+                ->empty()
                 ->title(__('Status'))
                 ->placeholder(__('Status')),
         ];

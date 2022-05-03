@@ -22,8 +22,7 @@ class JourneyEditLayout extends Rows
     {
         $journey = $this->query->get('journey');
 
-        $trips = Trip::whereNot('status', Trip::STATUS_DONE)
-            ->orderBy('start_time')
+        $trips = Trip::orderBy('start_time')
             ->get()
             ->keyBy('id')
             ->map(function (Trip $trip) {

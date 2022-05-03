@@ -29,6 +29,8 @@ class ViewHelper
 
     public static function formatLocality(Locality $locality): string
     {
-        return $locality->name . ' (' . $locality->region . ', ' . $locality->district . ')';
+        $name = $locality->name . ' (' . $locality->region;
+
+        return $locality->district ?  $name . ', ' . $locality->district . ')' :  $name . ')';
     }
 }

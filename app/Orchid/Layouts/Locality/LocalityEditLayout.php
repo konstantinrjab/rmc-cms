@@ -20,8 +20,6 @@ class LocalityEditLayout extends Rows
      */
     public function fields(): array
     {
-        $regions = Locality::distinct()->toBase()->get('region')->pluck('region')->toArray();
-
         return [
             Input::make('locality.name')
                 ->type('text')
@@ -31,8 +29,9 @@ class LocalityEditLayout extends Rows
                 ->placeholder(__('Name')),
 
             Select::make('locality.region')
-                ->options(ViewHelper::selectOptions($regions))
+                ->options(ViewHelper::selectOptions(Locality::REGIONS))
                 ->required()
+                ->empty()
                 ->title(__('Region'))
                 ->placeholder(__('Region')),
 
