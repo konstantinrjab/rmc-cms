@@ -5,12 +5,12 @@ namespace App\Orchid\Layouts\Trip;
 use App\Helpers\ViewHelper;
 use App\Models\Client;
 use App\Models\Employee;
+use App\Models\Locality;
 use App\Models\Trip;
 use App\Models\Truck;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -25,6 +25,7 @@ class TripListLayout extends Table
         $clients = Client::all();
         $employees = Employee::all();
         $trucks = Truck::all();
+        $localities = Locality::all();
 
         return [
             TD::make('client_id', __('Client'))
@@ -53,21 +54,25 @@ class TripListLayout extends Table
 
             TD::make('locality_from_id', __('Locality From'))
                 ->sort()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_SELECT, $localities->keyBy('id')->map(function (Locality $locality) {
+                    return ViewHelper::formatLocality($locality);
+                }))
                 ->render(function (Trip $trip) {
                     return $trip->localityFrom->name;
                 }),
 
             TD::make('locality_to_id', __('Locality To'))
                 ->sort()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_SELECT, $localities->keyBy('id')->map(function (Locality $locality) {
+                    return ViewHelper::formatLocality($locality);
+                }))
                 ->render(function (Trip $trip) {
                     return $trip->localityTo->name;
                 }),
 
             TD::make('status', __('Status'))
                 ->sort()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]))
                 ->render(function (Trip $trip) {
                     return match($trip->status) {
                         Trip::STATUS_ORDERED => '<span class="text-primary">ordered</span>',
@@ -79,7 +84,7 @@ class TripListLayout extends Table
             TD::make('mileage', __('Mileage'))
                 ->sort()
                 ->defaultHidden()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_NUMBER_RANGE)
                 ->render(function (Trip $trip) {
                     return $trip->mileage;
                 }),
@@ -87,7 +92,7 @@ class TripListLayout extends Table
             TD::make('fuel_remains', __('Fuel Remains'))
                 ->sort()
                 ->defaultHidden()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_NUMBER_RANGE)
                 ->render(function (Trip $trip) {
                     return $trip->fuel_remains;
                 }),
@@ -95,14 +100,14 @@ class TripListLayout extends Table
             TD::make('fuel_refill', __('Fuel Refill'))
                 ->sort()
                 ->defaultHidden()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_NUMBER_RANGE)
                 ->render(function (Trip $trip) {
                     return $trip->fuel_refill;
                 }),
 
             TD::make('start_time', __('Start Time'))
                 ->sort()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_DATE_RANGE)
                 ->render(function (Trip $trip) {
                     return $trip->start_time;
                 }),
@@ -110,7 +115,7 @@ class TripListLayout extends Table
             TD::make('finish_time', __('Finish Time'))
                 ->sort()
                 ->defaultHidden()
-                ->filter(Input::make())
+                ->filter(TD::FILTER_DATE_RANGE)
                 ->render(function (Trip $trip) {
                     return $trip->finish_time;
                 }),
