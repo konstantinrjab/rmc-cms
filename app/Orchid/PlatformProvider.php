@@ -40,10 +40,11 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('Fuel Transactions'))
                 ->icon('drop')
                 ->title('Fuel')
-                ->list([
-                    Menu::make('History')->icon('history')->route('platform.fuel_transactions'),
-                    Menu::make('Analytics')->icon('graph')->route('platform.fuel_transactions.analytics'),
-                ]),
+                ->route('platform.fuel_transactions'),
+
+            Menu::make(__('Fuel Analytics'))
+                ->icon('graph')
+                ->route('platform.fuel_transactions.analytics'),
 
             Menu::make(__('Employees'))
                 ->title('Staff')

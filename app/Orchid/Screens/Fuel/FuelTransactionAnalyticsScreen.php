@@ -24,8 +24,8 @@ class FuelTransactionAnalyticsScreen extends Screen
             });
         }
 
-        $consumption = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_SALE);
-        $replenishment = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_PURCHASE);
+        $consumption = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_EXPENSE);
+        $replenishment = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_INCOME);
 
         return [
             'fuelTransactions' => [
@@ -38,8 +38,6 @@ class FuelTransactionAnalyticsScreen extends Screen
             'metrics'          => [
                 'consumption'   => ['value' => number_format($consumption->pluck('quantity')->sum())],
                 'replenishment' => ['value' => number_format($replenishment->pluck('quantity')->sum())],
-                'orders'        => ['value' => number_format(10000), 'diff' => 23.4],
-                'total'         => number_format(65661),
             ],
         ];
     }
@@ -59,8 +57,6 @@ class FuelTransactionAnalyticsScreen extends Screen
             Layout::metrics([
                 'Overall Consumption'   => 'metrics.consumption',
                 'Overall Replenishment' => 'metrics.replenishment',
-                'Pending Orders'        => 'metrics.orders',
-                'Total Earnings'        => 'metrics.total',
             ]),
         ];
     }

@@ -14,8 +14,8 @@ use Orchid\Screen\AsSource;
  */
 class FuelTransaction extends Model
 {
-    public const TYPE_PURCHASE = 'purchase';
-    public const TYPE_SALE = 'sale';
+    public const TYPE_INCOME = 'income';
+    public const TYPE_EXPENSE = 'expense';
 
     use HasFactory, AsSource, Attachable, Filterable;
 

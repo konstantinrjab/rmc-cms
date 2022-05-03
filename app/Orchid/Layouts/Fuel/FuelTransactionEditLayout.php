@@ -28,8 +28,8 @@ class FuelTransactionEditLayout extends Rows
             Select::make('fuelTransaction.transaction_type')
                 ->required()
                 ->options([
-                    FuelTransaction::TYPE_PURCHASE => 'Purchase',
-                    FuelTransaction::TYPE_SALE => 'Sale',
+                    FuelTransaction::TYPE_INCOME  => __(FuelTransaction::TYPE_INCOME),
+                    FuelTransaction::TYPE_EXPENSE => __(FuelTransaction::TYPE_EXPENSE),
                 ])
                 ->empty()
                 ->title('Select transaction type'),

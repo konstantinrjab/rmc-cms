@@ -31,7 +31,7 @@ class FuelTransactionListLayout extends Table
 
             TD::make('transaction_type', __('Transaction Type'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([FuelTransaction::TYPE_SALE, FuelTransaction::TYPE_PURCHASE]))
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([FuelTransaction::TYPE_EXPENSE, FuelTransaction::TYPE_INCOME]))
                 ->render(function (FuelTransaction $transaction) {
                     return $transaction->transaction_type;
                 }),
@@ -41,7 +41,7 @@ class FuelTransactionListLayout extends Table
                 ->filter(TD::FILTER_NUMBER_RANGE)
                 ->render(function (FuelTransaction $transaction) {
                     return '<span class="'
-                        . ($transaction->transaction_type == FuelTransaction::TYPE_SALE ? 'text-danger' : 'text-success')
+                        . ($transaction->transaction_type == FuelTransaction::TYPE_EXPENSE ? 'text-danger' : 'text-success')
                         . "\">$transaction->quantity</span>";
                 }),
 

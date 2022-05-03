@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\FuelTransaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,13 +18,13 @@ class FuelTransactionFactory extends Factory
     public function definition()
     {
         return [
-            'transaction_type' => $this->faker->randomElement(['purchase', 'sale']),
-            'fuel_type' => 'diesel',
-            'quantity' => $this->faker->numberBetween(50, 1000),
-            'subject_id' => 1,
-            'operator_id' => 1,
-            'info' => null,
-            'datetime' => $this->faker->dateTimeBetween('-1 week'),
+            'transaction_type' => $this->faker->randomElement([FuelTransaction::TYPE_INCOME, FuelTransaction::TYPE_EXPENSE]),
+            'fuel_type'        => 'diesel',
+            'quantity'         => $this->faker->numberBetween(50, 1000),
+            'subject_id'       => 1,
+            'operator_id'      => 1,
+            'info'             => null,
+            'datetime'         => $this->faker->dateTimeBetween('-1 week'),
         ];
     }
 }
