@@ -98,15 +98,15 @@ class TripEditLayout extends Rows
                 ->required()
                 ->format24hr()
                 ->enableTime()
-                ->title('Start time')
-                ->help('Start time'),
+                ->title('Start Time')
+                ->help('Start Time'),
 
             DateTimer::make('trip.finish_time')
                 ->required()
                 ->format24hr()
                 ->enableTime()
-                ->title('Finish time')
-                ->help('Finish time'),
+                ->title('Finish Time')
+                ->help('Finish Time'),
         ];
     }
 }
