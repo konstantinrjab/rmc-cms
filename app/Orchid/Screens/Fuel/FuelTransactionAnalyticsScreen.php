@@ -4,7 +4,6 @@ namespace App\Orchid\Screens\Fuel;
 
 use App\Models\FuelTransaction;
 use App\Orchid\Layouts\Fuel\FuelConsumptionChart;
-use App\Orchid\Layouts\Fuel\FuelTransactionAnalyticsLayout;
 use Illuminate\Support\Collection;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;

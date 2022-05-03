@@ -10,7 +10,7 @@ use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
 /**
- * @mixin IdeHelperTrip
+ * @mixin IdeHelperJourney
  */
 class Journey extends Model
 {

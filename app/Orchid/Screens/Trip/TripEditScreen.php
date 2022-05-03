@@ -94,7 +94,7 @@ class TripEditScreen extends Screen
         return [
 
             Layout::block(TripEditLayout::class)
-                ->title(__('Client Information'))
+                ->title(__('Trip Information'))
                 ->description(__('Update trip information.'))
                 ->commands(
                     Button::make(__('Save'))

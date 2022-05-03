@@ -11,6 +11,8 @@ use App\Models\Locality;
 use App\Models\Trip;
 use App\Models\Truck;
 use Orchid\Screen\Field;
+use Orchid\Screen\Fields\DateTimer;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 
@@ -35,15 +37,7 @@ class TripEditLayout extends Rows
 
         return [
 
-//            'client_id',
-//            'employee_id',
-//            'truck_id',
-//            'locality_from_id',
-//            'locality_to_id',
-//            'status',
-//            'mileage',
-//            'fuel_remains',
-//            'fuel_refill',
+
 //            'start_time',
 //            'finish_time',
 
@@ -83,10 +77,34 @@ class TripEditLayout extends Rows
                 ->title(__('Status'))
                 ->placeholder(__('Status')),
 
-//            Input::make('trip.position')
-//                ->type('text')
-//                ->title(__('Position'))
-//                ->placeholder(__('Position')),
+            Input::make('trip.mileage')
+                ->type('number')
+                ->title(__('Mileage'))
+                ->placeholder(__('Mileage')),
+
+            Input::make('trip.fuel_remains')
+                ->type('number')
+                ->title(__('Fuel Remains'))
+                ->placeholder(__('Fuel Remains')),
+
+            Input::make('trip.fuel_refill')
+                ->type('number')
+                ->title(__('Fuel Refill'))
+                ->placeholder(__('Fuel Refill')),
+
+            DateTimer::make('trip.start_time')
+                ->required()
+                ->format24hr()
+                ->enableTime()
+                ->title('Select start time')
+                ->help('Start time'),
+
+            DateTimer::make('trip.finish_time')
+                ->required()
+                ->format24hr()
+                ->enableTime()
+                ->title('Select finish time')
+                ->help('Finish time'),
         ];
     }
 }

@@ -248,7 +248,7 @@ Route::screen('journeys', \App\Orchid\Screens\Journey\JourneyListScreen::class)
             ->push(__('Journeys'), route('platform.journeys'));
     });
 
-Route::screen('journeys/{truck}/edit', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
+Route::screen('journeys/{journey}/edit', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
     ->name('platform.journeys.edit')
     ->breadcrumbs(function (Trail $trail, $user) {
         return $trail
@@ -256,13 +256,22 @@ Route::screen('journeys/{truck}/edit', \App\Orchid\Screens\Journey\JourneyEditSc
             ->push(__('Journeys'), route('platform.journeys.edit', $user));
     });
 
-Route::screen('Journeys/create', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
+Route::screen('journeys/{journey}', \App\Orchid\Screens\Journey\JourneyItemScreen::class)
+    ->name('platform.journeys.item')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.journeys')
+            ->push(__('Journeys'), route('platform.journeys.item', $user));
+    });
+
+Route::screen('journeys/create', \App\Orchid\Screens\Journey\JourneyEditScreen::class)
     ->name('platform.journeys.create')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.journeys')
             ->push(__('Create'), route('platform.journeys.create'));
     });
+
 
 // fuel transactions
 Route::screen('fuel-transactions', \App\Orchid\Screens\Fuel\FuelTransactionListScreen::class)

@@ -103,6 +103,32 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Journey
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
+ * @property-read int|null $trips_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey defaultSort(string $column, string $direction = 'asc')
+ * @method static \Database\Factories\JourneyFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey filters(?\Orchid\Filters\HttpFilter $httpFilter = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey filtersApply(iterable $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey filtersApplySelection($selection)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereUpdatedAt($value)
+ */
+	class IdeHelperJourney {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Locality
  *
  * @property int $id
@@ -137,6 +163,7 @@ namespace App\Models{
  * App\Models\Trip
  *
  * @property int $id
+ * @property int|null $journey_id
  * @property int $client_id
  * @property int $employee_id
  * @property int $truck_id
@@ -152,6 +179,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Client $client
  * @property-read \App\Models\Employee $employee
+ * @property-read \App\Models\Journey|null $journey
  * @property-read \App\Models\Locality $localityFrom
  * @property-read \App\Models\Locality $localityTo
  * @property-read \App\Models\Truck $truck
@@ -170,6 +198,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFuelRefill($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFuelRemains($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereJourneyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityFromId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityToId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereMileage($value)

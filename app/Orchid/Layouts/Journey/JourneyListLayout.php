@@ -24,7 +24,7 @@ class JourneyListLayout extends Table
                 ->cantHide()
                 ->filter(Input::make())
                 ->render(function (Journey $journey) {
-                    return $journey->name;
+                    return '<a href="' . route('platform.journeys.item', $journey->id) . '">' . $journey->name . '</a>';
                 }),
 
             TD::make(__('Actions'))
