@@ -43,17 +43,7 @@ class JourneyEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->journey->exists ? 'Edit Journey' : 'Create Journey';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Details such as name and position';
+        return ($this->journey->exists ? __('Edit') : __('Create')) . ': ' . __('Journey');
     }
 
     /**
@@ -95,8 +85,7 @@ class JourneyEditScreen extends Screen
         return [
 
             Layout::block(JourneyEditLayout::class)
-                ->title(__('Journey Information'))
-                ->description(__('Update the journey information.'))
+                ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())

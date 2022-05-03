@@ -42,17 +42,7 @@ class ClientEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->client->exists ? 'Edit Client' : 'Create Client';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Details such as name';
+        return ($this->client->exists ? __('Edit') : __('Create')) . ': ' . __('Client');
     }
 
     /**
@@ -93,8 +83,7 @@ class ClientEditScreen extends Screen
         return [
 
             Layout::block(ClientEditLayout::class)
-                ->title(__('Client Information'))
-                ->description(__('Update your client information.'))
+                ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())

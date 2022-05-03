@@ -42,17 +42,7 @@ class FuelTransactionEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->fuelTransaction->exists ? 'Edit Transaction' : 'Create Transaction';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'All transaction details';
+        return ($this->fuelTransaction->exists ? __('Edit') : __('Create')) . ': ' . __('Fuel Transaction');
     }
 
     /**
@@ -93,8 +83,7 @@ class FuelTransactionEditScreen extends Screen
         return [
 
             Layout::block(FuelTransactionEditLayout::class)
-                ->title(__('Fuel Transaction Information'))
-                ->description(__('Update fuel transaction information.'))
+                ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())

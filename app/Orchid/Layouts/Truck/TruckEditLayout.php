@@ -48,7 +48,7 @@ class TruckEditLayout extends Rows
             Select::make('truck.employee_id')
                 ->options($employeesOptions)
                 ->empty()
-                ->title('Select employee'),
+                ->title(__('Employee')),
 
         ];
     }

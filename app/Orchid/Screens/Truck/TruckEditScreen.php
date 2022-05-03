@@ -42,17 +42,7 @@ class TruckEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->truck->exists ? 'Edit Truck' : 'Create Truck';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Details such as name';
+        return ($this->truck->exists ? __('Edit') : __('Create')) . ': ' . __('Truck');
     }
 
     /**
@@ -93,8 +83,7 @@ class TruckEditScreen extends Screen
         return [
 
             Layout::block(TruckEditLayout::class)
-                ->title(__('Truck Information'))
-                ->description(__('Update your truck information.'))
+                ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())

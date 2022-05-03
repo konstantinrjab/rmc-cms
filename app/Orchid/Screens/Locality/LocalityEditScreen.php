@@ -42,17 +42,7 @@ class LocalityEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->locality->exists ? 'Edit Locality' : 'Create Locality';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Details such as name';
+        return ($this->locality->exists ? __('Edit') : __('Create')) . ': ' . __('Locality');
     }
 
     /**
@@ -93,8 +83,7 @@ class LocalityEditScreen extends Screen
         return [
 
             Layout::block(LocalityEditLayout::class)
-                ->title(__('Locality Information'))
-                ->description(__('Update locality information.'))
+                ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())

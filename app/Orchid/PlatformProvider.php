@@ -30,7 +30,7 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             Menu::make(__('Trips'))
                 ->icon('arrow-right')
-                ->title('transportation')
+                ->title(__('Transportation'))
                 ->route('platform.trips'),
 
             Menu::make(__('Journeys'))
@@ -47,7 +47,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.fuel_transactions.analytics'),
 
             Menu::make(__('Employees'))
-                ->title('Staff')
+                ->title(__('Staff'))
                 ->icon('user')
                 ->route('platform.employees'),
             Menu::make(__('Trucks'))
@@ -55,12 +55,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.trucks'),
 
             Menu::make(__('Clients'))
-                ->title('Clients')
+                ->title(__('Clients'))
                 ->icon('briefcase')
                 ->route('platform.clients'),
 
             Menu::make(__('Localities'))
-                ->title('Glossary')
+                ->title(__('Glossary'))
                 ->icon('globe')
                 ->route('platform.localities'),
 

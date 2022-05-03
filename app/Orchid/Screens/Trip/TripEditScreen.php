@@ -43,17 +43,7 @@ class TripEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->trip->exists ? 'Edit Trip' : 'Create Trip';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Details such as name';
+        return ($this->trip->exists ? __('Edit') : __('Create')) . ': ' . __('Client');
     }
 
     /**
