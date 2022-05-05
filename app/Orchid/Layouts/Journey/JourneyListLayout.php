@@ -20,12 +20,32 @@ class JourneyListLayout extends Table
     public function columns(): array
     {
         return [
-            TD::make('name', __('Name'))
+            TD::make('id', __('Id'))
+                ->sort()
+                ->render(function (Journey $journey) {
+                    return '<a href="' . route('platform.journeys.item', $journey->id) . '">' . $journey->id . '</a>';
+                }),
+
+            TD::make('employee_id', __('Employee'))
                 ->sort()
                 ->cantHide()
                 ->filter(Input::make())
                 ->render(function (Journey $journey) {
-                    return '<a href="' . route('platform.journeys.item', $journey->id) . '">' . ViewHelper::formatJourneyName($journey) . '</a>';
+                    return $journey->employee->name;
+                }),
+
+            TD::make('date_from', __('Date From'))
+                ->sort()
+                ->filter(TD::FILTER_DATE_RANGE)
+                ->render(function (Journey $journey) {
+                    return $journey->date_from->format('Y-m-d H:i');
+                }),
+
+            TD::make('date_to', __('Date To'))
+                ->sort()
+                ->filter(TD::FILTER_DATE_RANGE)
+                ->render(function (Journey $journey) {
+                    return $journey->date_to->format('Y-m-d H:i');
                 }),
 
             TD::make(__('Actions'))
