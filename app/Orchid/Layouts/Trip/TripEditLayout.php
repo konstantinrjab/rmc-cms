@@ -60,7 +60,7 @@ class TripEditLayout extends Rows
 
             Select::make('trip.locality_from_id')
                 ->required()
-                ->empty(__('No select'))
+                ->empty()
                 ->options($localities)
                 ->title(__('Locality From'))
                 ->placeholder(__('Locality From')),
