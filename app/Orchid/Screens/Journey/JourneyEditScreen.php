@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Journey;
 
 use App\Models\Journey;
+use App\Models\JourneyTransaction;
 use App\Models\Trip;
 use App\Orchid\Layouts\Journey\JourneyEditLayout;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Illuminate\Support\Facades\DB;
 
 class JourneyEditScreen extends Screen
 {
@@ -100,17 +102,26 @@ class JourneyEditScreen extends Screen
     {
         $data = $request->get('journey');
 
-        $journey
-            ->fill($data)
-            ->save();
+        DB::transaction(function () use ($journey, $data) {
+            $journey
+                ->fill($data)
+                ->save();
 
-        $trips = Trip::where('start_time', '>=', $data['date_from'])
-            ->where('finish_time', '<=', $data['date_to'])
-            ->where(['employee_id' => $data['employee_id']])
-            ->whereNull('journey_id')
-            ->get();
+            // TODO: refactor? make it more obvious?
+            Trip::where('start_time', '>=', $data['date_from'])
+                ->where('finish_time', '<=', $data['date_to'])
+                ->where(['employee_id' => $data['employee_id']])
+                ->whereNull('journey_id')
+                ->update(['journey_id' => $journey->id]);
 
-        Trip::whereIn('id', $trips->pluck('id'))->update(['journey_id' => $journey->id]);
+            // TODO: update relations, not recreate them
+            $journey->transactions()->delete();
+
+            foreach ($data['transactions'] as $transaction) {
+                $transaction['journey_id'] = $journey->id;
+                JourneyTransaction::create($transaction);
+            }
+        });
 
         Toast::info(__('Journey was saved.'));
 

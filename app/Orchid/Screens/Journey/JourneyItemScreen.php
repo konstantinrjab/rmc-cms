@@ -33,6 +33,8 @@ class JourneyItemScreen extends Screen
      */
     public function query(Journey $journey): iterable
     {
+        $journey->load(['trips', 'trips.client', 'trips.employee', 'trips.truck', 'trips.localityFrom', 'trips.localityTo', 'transactions']);
+
         $fuelReplenishment = 0;
         $mileage = 0;
 
@@ -52,17 +54,31 @@ class JourneyItemScreen extends Screen
 
         $fuelUsed = $startFuel && $finishFuel ? $startFuel - $finishFuel + $fuelReplenishment : null;
 
+        $income = 0;
+        $expense = 0;
+        $transactionsTotal = 0;
+
+        foreach ($journey->transactions as $transaction) {
+            $transaction->amount > 0 ? $income += $transaction->amount : $expense += $transaction->amount;
+            $transactionsTotal += $transaction->amount;
+        }
+
         return [
-            'journey'                    => $journey->load(['trips', 'trips.client', 'trips.employee', 'trips.truck', 'trips.localityFrom', 'trips.localityTo', 'transactions']),
-            'journey.trips'              => $trips,
-            'journey.transactions'       => $journey->transactions->sortBy('amount', SORT_REGULAR, true),
-            'metrics.fuel_replenishment' => $fuelReplenishment,
-            'metrics.fuel_used'          => $fuelUsed,
-            'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' ' . __('l/100 km'),
-            'metrics.mileage'            => $mileage,
-            'journey.date_from'          => $journey->date_from->format('d.m.y'),
-            'journey.date_to'            => $journey->date_to->format('d.m.y'),
-            'journey.duration'           => $journey->date_to->diffInDays($journey->date_from),
+            'journey'              => $journey,
+            'journey.trips'        => $trips,
+            'journey.transactions' => $journey->transactions->sortBy('amount', SORT_REGULAR, true),
+            'journey.date_from'    => $journey->date_from->format('d.m.y'),
+            'journey.date_to'      => $journey->date_to->format('d.m.y'),
+            'journey.duration'     => $journey->date_to->diffInDays($journey->date_from),
+
+            'fuel.replenishment' => $fuelReplenishment,
+            'fuel.used'          => $fuelUsed,
+            'fuel.consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' ' . __('l/100 km'),
+            'fuel.mileage'       => $mileage,
+
+            'transactions.income'  => $income,
+            'transactions.expense' => $expense,
+            'transactions.total'   => $transactionsTotal,
         ];
     }
 
@@ -210,10 +226,17 @@ class JourneyItemScreen extends Screen
                 ->title(__('Transactions')),
 
             Layout::metrics([
-                'Fuel Replenishment' => 'metrics.fuel_replenishment',
-                'Fuel Used'          => 'metrics.fuel_used',
-                'Total Mileage'      => 'metrics.mileage',
-                'Fuel Consumption'   => 'metrics.fuel_consumption',
+                'Income'  => 'transactions.income',
+                'Expense' => 'transactions.expense',
+                'Total'   => 'transactions.total',
+            ])
+                ->title(__('Transactions Summary')),
+
+            Layout::metrics([
+                'Fuel Replenishment' => 'fuel.replenishment',
+                'Fuel Used'          => 'fuel.used',
+                'Total Mileage'      => 'fuel.mileage',
+                'Fuel Consumption'   => 'fuel.consumption',
             ])
                 ->title(__('Fuel Analytics')),
 

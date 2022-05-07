@@ -62,11 +62,14 @@ class MultipleInput extends Field
         $content = [];
 
         foreach ($this->get('value') as $item) {
-            $renderers = $this->get('renderers');
 
-            foreach ($renderers as $renderer) {
-                /** @var Field $renderer */
+            $renderers = [];
+            foreach ($this->get('renderers') as $origRenderer) {
+                /** @var Field $origRenderer */
+                $renderer = clone $origRenderer;
                 $renderer->value($item->{$renderer->get('name')});
+                $renderer->name($this->get('name') . "[$item->id][" . $renderer->get('name') . ']');
+                $renderers[] = $renderer;
             }
 
             $content[] = view($this->view, array_merge($this->getAttributes(), [
@@ -77,7 +80,6 @@ class MultipleInput extends Field
                 'slug'           => $this->getSlug(),
                 'oldName'        => $this->getOldName(),
                 'typeForm'       => $this->typeForm ?? $this->vertical()->typeForm,
-
 
                 'renderers' => $renderers,
                 'item'      => $item,

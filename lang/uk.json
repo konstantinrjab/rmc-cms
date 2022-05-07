@@ -75,5 +75,9 @@
     "Comment": "Коментар",
     "Amount": "Сума",
     "Transactions": "Транзакції",
+    "Transactions Summary": "Транзакції Загалом",
+    "Total": "Загалом",
+    "Income": "Прибуток",
+    "Expense": "Витрати",
     "Dates": "Дати"
 }
