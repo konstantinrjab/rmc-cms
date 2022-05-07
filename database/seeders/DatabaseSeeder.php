@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Journey;
+use App\Models\JourneyTransaction;
 use App\Models\Locality;
 use App\Models\Trip;
 use App\Models\Truck;
@@ -83,6 +84,13 @@ class DatabaseSeeder extends Seeder
             }
         }
         $journeyIds = $journeys->pluck('id')->toArray();
+
+        foreach ($journeyIds as $journeyId) {
+            for ($i = 1; $i < random_int(0, 5); $i++) {
+                JourneyTransaction::factory()->create([
+                    'journey_id' => $journeyId,
+                ]);
+            }
+        }
     }
 }
-

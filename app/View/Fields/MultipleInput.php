@@ -14,7 +14,7 @@ class MultipleInput extends Field
     /**
      * @var string
      */
-    protected $view = 'multiple-input-field';
+    protected $view = 'fields.multiple-input';
 
     /**
      * Default attributes value.

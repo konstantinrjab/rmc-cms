@@ -109,9 +109,12 @@ namespace App\Models{
  * @property int $employee_id
  * @property \Illuminate\Support\Carbon $date_from
  * @property \Illuminate\Support\Carbon $date_to
+ * @property string|null $comment
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Employee $employee
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\JourneyTransaction[] $transactions
+ * @property-read int|null $transactions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
  * @property-read int|null $trips_count
  * @method static \Illuminate\Database\Eloquent\Builder|Journey defaultSort(string $column, string $direction = 'asc')
@@ -122,6 +125,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Journey newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Journey newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Journey query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Journey whereComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereDateFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereDateTo($value)
@@ -130,6 +134,40 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Journey whereUpdatedAt($value)
  */
 	class IdeHelperJourney {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\JourneyTransaction
+ *
+ * @property int $id
+ * @property int $journey_id
+ * @property string $type
+ * @property string $name
+ * @property int $amount
+ * @property string|null $comment
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Journey $journey
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction defaultSort(string $column, string $direction = 'asc')
+ * @method static \Database\Factories\JourneyTransactionFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction filters(?\Orchid\Filters\HttpFilter $httpFilter = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction filtersApply(iterable $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction filtersApplySelection($selection)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereJourneyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	class IdeHelperJourneyTransaction {}
 }
 
 namespace App\Models{

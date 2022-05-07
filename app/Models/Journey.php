@@ -21,6 +21,7 @@ class Journey extends Model
         'employee_id',
         'date_from',
         'date_to',
+        'comment',
     ];
 
     protected $casts = [
@@ -53,5 +54,10 @@ class Journey extends Model
     public function trips(): HasMany
     {
         return $this->hasMany(Trip::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(JourneyTransaction::class);
     }
 }

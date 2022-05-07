@@ -9,7 +9,9 @@ use App\Models\Journey;
 use App\Models\Trip;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
+use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
@@ -101,6 +103,10 @@ class JourneyItemScreen extends Screen
     {
         return [
 
+            Link::make(__('Edit'))
+                ->route('platform.journeys.edit', $this->journey->id)
+                ->icon('pencil'),
+
             Button::make(__('Remove'))
                 ->icon('trash')
                 ->confirm(__('Once item is deleted, all of its resources and data will be permanently deleted.'))
@@ -181,6 +187,13 @@ class JourneyItemScreen extends Screen
                 TD::make('finish_time', __('Finish Time'))
                     ->render(function (Trip $trip) {
                         return $trip->finish_time;
+                    }),
+            ]),
+
+            Layout::legend('journey', [
+                Sight::make('comment', __('Comment'))
+                    ->render(function (Journey $journey) {
+                        return $journey->comment;
                     }),
             ]),
 

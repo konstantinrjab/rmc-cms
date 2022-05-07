@@ -7,6 +7,7 @@ namespace App\Orchid\Layouts\Journey;
 use App\Models\Employee;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\DateTimer;
+use Orchid\Screen\Fields\Quill;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 
@@ -42,6 +43,10 @@ class JourneyEditLayout extends Rows
                 ->enableTime()
                 ->title(__('Date To'))
                 ->help(__('Date To')),
+
+            Quill::make('journey.comment')
+                ->title('Comment'),
+
         ];
     }
 }

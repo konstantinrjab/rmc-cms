@@ -121,7 +121,7 @@ class JourneyEditScreen extends Screen
 
         Toast::info(__('Journey was saved.'));
 
-        return redirect()->route('platform.journeys');
+        return redirect()->route('platform.journeys.item', $journey->id);
     }
 
     /**

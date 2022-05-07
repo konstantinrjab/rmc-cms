@@ -20,6 +20,7 @@ class JourneyFactory extends Factory
             'employee_id' => 1,
             'date_from'   => $this->faker->dateTimeBetween('-1 week', '-5 days'),
             'date_to'     => $this->faker->dateTimeBetween('-5 days', '-1 day'),
+            'comment'     => $this->faker->sentence(),
         ];
     }
 }

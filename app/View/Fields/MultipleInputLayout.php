@@ -8,7 +8,7 @@ use Orchid\Screen\Repository;
 
 abstract class MultipleInputLayout extends Layout
 {
-    protected $template = 'multiple-input-layout';
+    protected $template = 'fields.multiple-input-layout';
 
     protected $title;
 
