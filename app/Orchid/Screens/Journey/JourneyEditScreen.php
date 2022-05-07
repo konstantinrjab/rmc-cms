@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
-use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
@@ -84,15 +83,9 @@ class JourneyEditScreen extends Screen
     {
         return [
 
-            Layout::block(JourneyEditLayout::class)
-                ->title(__('Fill out the form.'))
-                ->commands(
-                    Button::make(__('Save'))
-                        ->type(Color::DEFAULT())
-                        ->icon('check')
-                        ->canSee($this->journey->exists)
-                        ->method('save')
-                ),
+            Layout::blank([
+                new JourneyEditLayout(),
+            ]),
 
         ];
     }

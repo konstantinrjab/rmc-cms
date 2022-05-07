@@ -80,12 +80,13 @@ class MultipleInput extends Field
 
 
                 'renderers' => $renderers,
-                'item' => $item,
+                'item'      => $item,
             ]))->render();
 //                ->withErrors($errors);
         }
 
-        return view('multiple-input-field-wrapper', [
+        return view('fields.multiple-input-wrapper', [
+            'attributes' => $this->getAllowAttributes(),
             'value'      => $this->get('value'),
             'properties' => $this->get('properties'),
             'content'    => implode($content),
