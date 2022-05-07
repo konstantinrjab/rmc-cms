@@ -38,7 +38,7 @@
     "Export": "Експорт",
     "Fuel": "Паливо",
     "Fuel Transactions": "Транзакції Палива",
-    "Fuel Analytics": "Аналітика Транзакцій",
+    "Fuel Analytics": "Аналітика Палива",
     "Fuel Consumption": "Витрата Палива",
     "Overall Replenishment": "Загальне Поповнення",
     "Overall Consumption": "Загальне Споживання",
@@ -72,5 +72,8 @@
     "Date To": "Дата Завершення",
     "Duration (days)": "Тривалість (дні)",
     "To calculate fuel consumption please set fuel remains for first and last trips": "Щоб розрахувати витрату палива, встановіть залишки палива для першої та останньої поїздок",
-    "Comment": "Коментар"
+    "Comment": "Коментар",
+    "Amount": "Сума",
+    "Transactions": "Транзакції",
+    "Dates": "Дати"
 }

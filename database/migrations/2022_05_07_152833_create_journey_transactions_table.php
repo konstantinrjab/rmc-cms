@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('journey_transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('journey_id');
-            $table->string('type');
             $table->string('name');
-            $table->unsignedBigInteger('amount');
+            $table->integer('amount');
             $table->text('comment')->nullable();
             $table->timestamps();
 

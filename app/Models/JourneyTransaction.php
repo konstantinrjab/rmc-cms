@@ -16,12 +16,11 @@ class JourneyTransaction extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
-    public const INCOME = 'income';
-    public const EXPENSE = 'expense';
+    public const TYPE_INCOME = 'income';
+    public const TYPE_EXPENSE = 'expense';
 
     protected $fillable = [
         'journey_id',
-        'type',
         'amount',
         'comment',
     ];

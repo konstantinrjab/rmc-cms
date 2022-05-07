@@ -142,7 +142,6 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $journey_id
- * @property string $type
  * @property string $name
  * @property int $amount
  * @property string|null $comment
@@ -163,9 +162,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereJourneyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|JourneyTransaction whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 	class IdeHelperJourneyTransaction {}
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\JourneyTransaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +18,8 @@ class JourneyTransactionFactory extends Factory
     {
         return [
             'journey_id' => 1,
-            'type'       => $this->faker->randomElement([JourneyTransaction::INCOME, JourneyTransaction::EXPENSE]),
             'name'       => $this->faker->word(),
-            'amount'     => $this->faker->numberBetween(0, 1000),
+            'amount'     => $this->faker->numberBetween(-1000, 1000),
             'comment'    => $this->faker->sentence(),
         ];
     }

@@ -6,6 +6,7 @@ namespace App\Orchid\Screens\Journey;
 
 use App\Helpers\ViewHelper;
 use App\Models\Journey;
+use App\Models\JourneyTransaction;
 use App\Models\Trip;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
@@ -52,8 +53,9 @@ class JourneyItemScreen extends Screen
         $fuelUsed = $startFuel && $finishFuel ? $startFuel - $finishFuel + $fuelReplenishment : null;
 
         return [
-            'journey'                    => $journey->load(['trips', 'trips.client', 'trips.employee', 'trips.truck', 'trips.localityFrom', 'trips.localityTo']),
+            'journey'                    => $journey->load(['trips', 'trips.client', 'trips.employee', 'trips.truck', 'trips.localityFrom', 'trips.localityTo', 'transactions']),
             'journey.trips'              => $trips,
+            'journey.transactions'       => $journey->transactions->sortBy('amount', SORT_REGULAR, true),
             'metrics.fuel_replenishment' => $fuelReplenishment,
             'metrics.fuel_used'          => $fuelUsed,
             'metrics.fuel_consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' ' . __('l/100 km'),
@@ -71,17 +73,7 @@ class JourneyItemScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->journey->name;
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Journey: ' . $this->journey->name;
+        return ViewHelper::formatJourneyName($this->journey);
     }
 
     /**
@@ -195,20 +187,42 @@ class JourneyItemScreen extends Screen
                     ->render(function (Journey $journey) {
                         return $journey->comment;
                     }),
-            ]),
+            ])
+                ->title(__('Comment')),
+
+            Layout::table('journey.transactions', [
+                TD::make('name', __('Name'))
+                    ->cantHide(),
+
+                TD::make('amount', __('Amount'))
+                    ->render(function (JourneyTransaction $transaction) {
+                        $isExpense = $transaction->amount < 0;
+
+                        return '<span class="'
+                            . ($isExpense ? 'text-danger' : 'text-success')
+                            . "\">$transaction->amount</span>";
+                    })
+                    ->cantHide(),
+
+                TD::make('comment', __('Comment'))
+                    ->cantHide(),
+            ])
+                ->title(__('Transactions')),
 
             Layout::metrics([
                 'Fuel Replenishment' => 'metrics.fuel_replenishment',
                 'Fuel Used'          => 'metrics.fuel_used',
                 'Total Mileage'      => 'metrics.mileage',
                 'Fuel Consumption'   => 'metrics.fuel_consumption',
-            ]),
+            ])
+                ->title(__('Fuel Analytics')),
 
             Layout::metrics([
                 'Date From'       => 'journey.date_from',
                 'Date To'         => 'journey.date_to',
                 'Duration (days)' => 'journey.duration',
-            ]),
+            ])
+                ->title(__('Dates')),
         ];
     }
 }
