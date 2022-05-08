@@ -8,7 +8,7 @@
         </label>
     @endisset
 
-    <table class="table table-bordered dynamicTable" id="{{ $tableId }}">
+    <table class="table table-bordered" data-type="multiple-input-table" id="{{ $tableId }}">
         <tbody>
         {!! $content !!}
         </tbody>
@@ -23,24 +23,16 @@
         let row = $("[data-type='multiple-input-wrapper'] [data-type='row-example']:last");
         row = $(row.text())
 
-        row.find("select").each(function (index) {
-            if ($(this).hasClass("select2-hidden-accessible")) {
-                $(this).select2('destroy');
-            }
-        });
-
-        let newRow = row.clone()
         let nameIndex = Math.floor(Math.random() * -9999)
 
-        newRow.find('input, select').each(function (index) {
+        row.find('input, select').each(function (index) {
             $(this).attr('id', Math.random()).val(null)
             let name = $(this).attr('name');
             $(this).attr('name', name.replace(/\[0]/g, '[' + nameIndex + ']'))
         });
-        newRow.show()
+        row.show()
 
-        $(".dynamicTable > tr:last").before(newRow.html())
-        newRow.insertAfter(".dynamicTable tr:last")
+        $("[data-type='multiple-input-table'] tbody").append(row)
 
         row.find("select").each(function (index) {
             $(this).select2({

@@ -22,7 +22,7 @@ class ViewHelper
 
     public static function formatJourneyName(Journey $journey): string
     {
-        return $journey->employee->name . ': ' . $journey->date_from->format('y.m.d') . '-' . $journey->date_from->format('y.m.d');
+        return $journey->employee->name . ': ' . $journey->date_from->format('d.m.y') . '-' . $journey->date_from->format('d.m.y');
     }
 
     public static function formatTripName(Trip $trip): string
