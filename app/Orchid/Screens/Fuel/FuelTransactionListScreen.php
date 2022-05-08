@@ -13,7 +13,7 @@ class FuelTransactionListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'fuelTransactions' => FuelTransaction::filters()->with(['subject'])->defaultSort('datetime', 'desc')->paginate(),
+            'fuelTransactions' => FuelTransaction::filters()->with(['truck', 'operator'])->defaultSort('datetime', 'desc')->paginate(),
         ];
     }
 

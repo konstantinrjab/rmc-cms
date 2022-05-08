@@ -17,15 +17,22 @@ class FuelTransaction extends Model
     public const TYPE_INCOME = 'income';
     public const TYPE_EXPENSE = 'expense';
 
+    public const TYPE_GAS_STATION = 'gas station';
+    public const TYPE_TRUCK = 'truck';
+    public const TYPE_OTHER = 'other';
+
     use HasFactory, AsSource, Attachable, Filterable;
 
     protected $fillable = [
         'transaction_type',
         'fuel_type',
         'quantity',
+        'source_id',
+        'consumer_id',
+        'consumer_type',
+        'price',
         'operator_id',
-        'subject_id',
-        'info',
+        'comment',
         'datetime',
     ];
 
@@ -42,8 +49,12 @@ class FuelTransaction extends Model
         'transaction_type',
         'fuel_type',
         'quantity',
+        'source_id',
+        'consumer_id',
+        'consumer_type',
+        'price',
         'operator_id',
-        'subject_id',
+        'comment',
         'datetime',
     ];
 
@@ -51,13 +62,21 @@ class FuelTransaction extends Model
         'transaction_type',
         'fuel_type',
         'quantity',
+        'source_id',
+        'consumer_id',
+        'consumer_type',
+        'price',
         'operator_id',
-        'subject_id',
         'datetime',
     ];
 
-    public function subject(): BelongsTo
+    public function operator(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function truck(): BelongsTo
+    {
+        return $this->belongsTo(Truck::class);
     }
 }

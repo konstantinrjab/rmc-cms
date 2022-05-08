@@ -5,6 +5,7 @@ namespace App\Orchid\Layouts\Fuel;
 use App\Helpers\ViewHelper;
 use App\Models\Employee;
 use App\Models\FuelTransaction;
+use App\Models\Truck;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
@@ -19,17 +20,27 @@ class FuelTransactionListLayout extends Table
 
     public function columns(): array
     {
+        $trucks = Truck::all();
         $employees = Employee::all();
+        $employeeOptions = $employees->keyBy('id')->map(fn($e) => $e->name);
+        $truckOptions = $trucks->keyBy('id')->map(fn($e) => ViewHelper::formatTruckName($e));
 
         return [
-            TD::make('subject_id', __('Subject'))
+            TD::make('id', __('ID'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, $employees->keyBy('id')->map(fn($e) => $e->name))
                 ->render(function (FuelTransaction $transaction) {
-                    return $transaction->subject->name;
+                    return '<a href="' . route('platform.fuel_transactions.item', $transaction->id) . '">' . $transaction->id . '</a>';
+                }),
+
+            TD::make('truck_id', __('Consumer'))
+                ->sort()
+                ->filter(TD::FILTER_SELECT, $truckOptions)
+                ->render(function (FuelTransaction $transaction) {
+                    return $transaction->truck ? ViewHelper::formatTruckName($transaction->truck) : "<span class='text-warning'>$transaction->comment</span>";
                 }),
 
             TD::make('transaction_type', __('Transaction Type'))
+                ->defaultHidden()
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([FuelTransaction::TYPE_EXPENSE, FuelTransaction::TYPE_INCOME]))
                 ->render(function (FuelTransaction $transaction) {

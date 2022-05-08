@@ -22,9 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('locality_from_id');
             $table->unsignedBigInteger('locality_to_id');
             $table->string('status');
-            $table->unsignedInteger('mileage');
+            $table->unsignedInteger('distance');
             $table->unsignedInteger('fuel_remains')->nullable();
-            $table->unsignedInteger('fuel_refill')->nullable();
             $table->dateTime('start_time');
             $table->dateTime('finish_time');
             $table->timestamps();

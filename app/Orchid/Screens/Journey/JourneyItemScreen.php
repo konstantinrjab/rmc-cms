@@ -36,13 +36,14 @@ class JourneyItemScreen extends Screen
         $journey->load(['trips', 'trips.client', 'trips.employee', 'trips.truck', 'trips.localityFrom', 'trips.localityTo', 'transactions']);
 
         $fuelReplenishment = 0;
-        $mileage = 0;
+        $distance = 0;
 
         $trips = $journey->trips->sortBy('start_time');
 
         foreach ($trips as $trip) {
-            $mileage += $trip->mileage;
-            $fuelReplenishment += $trip->fuel_refill;
+            $distance += $trip->distance;
+//            $fuelReplenishment += $trip->fuel_refill;
+            $fuelReplenishment += 0;
         }
 
         $startFuel = $trips->first()->fuel_remains;
@@ -73,8 +74,8 @@ class JourneyItemScreen extends Screen
 
             'fuel.replenishment' => $fuelReplenishment,
             'fuel.used'          => $fuelUsed,
-            'fuel.consumption'   => number_format($fuelUsed / $mileage * 100, 2) . ' ' . __('l/100 km'),
-            'fuel.mileage'       => $mileage,
+            'fuel.consumption'   => number_format($fuelUsed / $distance * 100, 2) . ' ' . __('l/100 km'),
+            'fuel.distance'       => $distance,
 
             'transactions.income'  => $income,
             'transactions.expense' => abs($expense),
@@ -172,19 +173,14 @@ class JourneyItemScreen extends Screen
                         };
                     }),
 
-                TD::make('mileage', __('Mileage'))
+                TD::make('distance', __('Distance'))
                     ->render(function (Trip $trip) {
-                        return $trip->mileage;
+                        return $trip->distance;
                     }),
 
                 TD::make('fuel_remains', __('Fuel Remains'))
                     ->render(function (Trip $trip) {
                         return $trip->fuel_remains;
-                    }),
-
-                TD::make('fuel_refill', __('Fuel Refill'))
-                    ->render(function (Trip $trip) {
-                        return $trip->fuel_refill;
                     }),
 
                 TD::make('start_time', __('Start Time'))
@@ -235,7 +231,7 @@ class JourneyItemScreen extends Screen
             Layout::metrics([
                 'Fuel Replenishment' => 'fuel.replenishment',
                 'Fuel Used'          => 'fuel.used',
-                'Total Mileage'      => 'fuel.mileage',
+                'Total Distance'      => 'fuel.distance',
                 'Fuel Consumption'   => 'fuel.consumption',
             ])
                 ->title(__('Fuel Analytics')),

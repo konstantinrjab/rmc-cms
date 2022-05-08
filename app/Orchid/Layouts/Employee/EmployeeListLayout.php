@@ -40,9 +40,9 @@ class EmployeeListLayout extends Table
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Employee::STATUS_OK, Employee::STATUS_ILL, Employee::STATUS_FIRED]))
                 ->render(function (Employee $employee) {
                     return match($employee->status) {
-                        Employee::STATUS_OK => '<span class="text-success">ok</span>',
-                        Employee::STATUS_ILL => '<span class="text-danger">ill</span>',
-                        Employee::STATUS_FIRED => '<span class="text-secondary">fired</span>',
+                        Employee::STATUS_OK => '<span class="text-success">' . __('ok') . '</span>',
+                        Employee::STATUS_ILL => '<span class="text-danger">' . __('ill') . '</span>',
+                        Employee::STATUS_FIRED => '<span class="text-secondary">' . __('fired') . '</span>',
                     };
                 }),
 

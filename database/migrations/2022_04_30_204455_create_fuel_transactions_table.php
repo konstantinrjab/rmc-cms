@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -18,15 +17,17 @@ return new class extends Migration
             $table->string('transaction_type');
             $table->string('fuel_type');
             $table->integer('quantity');
-            $table->unsignedBigInteger('operator_id');
-            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->unsignedBigInteger('source_id');
+            $table->unsignedBigInteger('truck_id')->nullable();
+            $table->string('consumer_type');
             $table->unsignedBigInteger('price')->nullable();
-            $table->text('info')->nullable();
+            $table->unsignedBigInteger('operator_id');
+            $table->text('comment')->nullable();
             $table->dateTime('datetime');
             $table->timestamps();
 
             $table->foreign('operator_id')->references('id')->on('employees');
-            $table->foreign('subject_id')->references('id')->on('employees');
+            $table->foreign('truck_id')->references('id')->on('trucks');
         });
     }
 

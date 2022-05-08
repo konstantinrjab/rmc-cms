@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FuelTransaction;
 use App\Models\Journey;
 use App\Models\JourneyTransaction;
 use App\Models\Locality;
@@ -38,13 +39,6 @@ class DatabaseSeeder extends Seeder
         $clientIds = \App\Models\Client::factory(20)->create()->pluck('id')->toArray();
 
         $employeeIds = \App\Models\Employee::factory(10)->create()->pluck('id')->toArray();
-        $transactions = \App\Models\FuelTransaction::factory(100)->make();
-
-        foreach ($transactions as $transaction) {
-            $transaction->operator_id = Arr::random($employeeIds);
-            $transaction->subject_id = Arr::random($employeeIds);
-            $transaction->save();
-        }
 
         $csv = array_map('str_getcsv', file(__DIR__ . '/localities.csv'));
 
@@ -64,6 +58,17 @@ class DatabaseSeeder extends Seeder
             $truck->save();
         }
         $truckIds = Truck::select('id')->toBase()->get()->pluck('id')->toArray();
+
+        $transactions = \App\Models\FuelTransaction::factory(100)->make();
+
+        foreach ($transactions as $transaction) {
+            $transaction->operator_id = Arr::random($employeeIds);
+            if ($transaction->consumer_type == FuelTransaction::TYPE_TRUCK) {
+                $transaction->truck_id = Arr::random($truckIds);
+                $transaction->transaction_type = FuelTransaction::TYPE_EXPENSE;
+            }
+            $transaction->save();
+        }
 
         $journeys = Journey::factory(20)->make();
         foreach ($journeys as $journey) {

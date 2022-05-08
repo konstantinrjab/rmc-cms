@@ -79,21 +79,16 @@ class TripEditLayout extends Rows
                 ->title(__('Status'))
                 ->placeholder(__('Status')),
 
-            Input::make('trip.mileage')
+            Input::make('trip.distance')
                 ->type('number')
                 ->required()
-                ->title(__('Mileage'))
-                ->placeholder(__('Mileage')),
+                ->title(__('Distance'))
+                ->placeholder(__('Distance')),
 
             Input::make('trip.fuel_remains')
                 ->type('number')
                 ->title(__('Fuel Remains'))
                 ->placeholder(__('Fuel Remains')),
-
-            Input::make('trip.fuel_refill')
-                ->type('number')
-                ->title(__('Fuel Refill'))
-                ->placeholder(__('Fuel Refill')),
 
             DateTimer::make('trip.start_time')
                 ->required()

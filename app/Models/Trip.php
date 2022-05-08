@@ -28,9 +28,8 @@ class Trip extends Model
         'locality_from_id',
         'locality_to_id',
         'status',
-        'mileage',
+        'distance',
         'fuel_remains',
-        'fuel_refill',
         'start_time',
         'finish_time',
     ];
@@ -53,9 +52,8 @@ class Trip extends Model
         'locality_from_id',
         'locality_to_id',
         'status',
-        'mileage',
+        'distance',
         'fuel_remains',
-        'fuel_refill',
         'start_time',
         'finish_time',
     ];
@@ -68,9 +66,8 @@ class Trip extends Model
         'locality_from_id',
         'locality_to_id',
         'status',
-        'mileage',
+        'distance',
         'fuel_remains',
-        'fuel_refill',
         'start_time',
         'finish_time',
     ];

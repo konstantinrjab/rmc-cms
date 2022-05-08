@@ -21,9 +21,12 @@ class FuelTransactionFactory extends Factory
             'transaction_type' => $this->faker->randomElement([FuelTransaction::TYPE_INCOME, FuelTransaction::TYPE_EXPENSE]),
             'fuel_type'        => 'diesel',
             'quantity'         => $this->faker->numberBetween(50, 1000),
-            'subject_id'       => 1,
+            'source_id'        => $this->faker->numberBetween(1, 3),
+            'truck_id'         => null,
+            'consumer_type'    => $this->faker->randomElement([FuelTransaction::TYPE_TRUCK, FuelTransaction::TYPE_GAS_STATION, FuelTransaction::TYPE_OTHER]),
+            'price'            => $this->faker->numberBetween(25, 35),
             'operator_id'      => 1,
-            'info'             => null,
+            'comment'          => $this->faker->boolean ? $this->faker->sentence : null,
             'datetime'         => $this->faker->dateTimeBetween('-1 week'),
         ];
     }

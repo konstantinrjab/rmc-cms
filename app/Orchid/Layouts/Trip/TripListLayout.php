@@ -81,12 +81,12 @@ class TripListLayout extends Table
                     };
                 }),
 
-            TD::make('mileage', __('Mileage'))
+            TD::make('distance', __('Distance'))
                 ->sort()
                 ->defaultHidden()
                 ->filter(TD::FILTER_NUMBER_RANGE)
                 ->render(function (Trip $trip) {
-                    return $trip->mileage;
+                    return $trip->distance;
                 }),
 
             TD::make('fuel_remains', __('Fuel Remains'))
@@ -95,14 +95,6 @@ class TripListLayout extends Table
                 ->filter(TD::FILTER_NUMBER_RANGE)
                 ->render(function (Trip $trip) {
                     return $trip->fuel_remains;
-                }),
-
-            TD::make('fuel_refill', __('Fuel Refill'))
-                ->sort()
-                ->defaultHidden()
-                ->filter(TD::FILTER_NUMBER_RANGE)
-                ->render(function (Trip $trip) {
-                    return $trip->fuel_refill;
                 }),
 
             TD::make('start_time', __('Start Time'))

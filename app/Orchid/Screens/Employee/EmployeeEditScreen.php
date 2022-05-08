@@ -42,17 +42,7 @@ class EmployeeEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->employee->exists ? 'Edit Employee' : 'Create Employee';
-    }
-
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
-    public function description(): ?string
-    {
-        return 'Details such as name and position';
+        return ($this->employee->exists ? __('Edit') : __('Create')) . ': ' . __('Employee');
     }
 
     /**
@@ -95,14 +85,7 @@ class EmployeeEditScreen extends Screen
 
             Layout::block(EmployeeEditLayout::class)
                 ->title(__('Employee Information'))
-                ->description(__('Update your employee information.'))
-                ->commands(
-                    Button::make(__('Save'))
-                        ->type(Color::DEFAULT())
-                        ->icon('check')
-                        ->canSee($this->employee->exists)
-                        ->method('save')
-                ),
+                ->description(__('Update your employee information.')),
 
         ];
     }
