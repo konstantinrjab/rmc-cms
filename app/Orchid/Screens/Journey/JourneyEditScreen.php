@@ -117,9 +117,11 @@ class JourneyEditScreen extends Screen
             // TODO: update relations, not recreate them
             $journey->transactions()->delete();
 
-            foreach ($data['transactions'] as $transaction) {
-                $transaction['journey_id'] = $journey->id;
-                JourneyTransaction::create($transaction);
+            if (!empty($data['transactions'])) {
+                foreach ($data['transactions'] as $transaction) {
+                    $transaction['journey_id'] = $journey->id;
+                    JourneyTransaction::create($transaction);
+                }
             }
         });
 

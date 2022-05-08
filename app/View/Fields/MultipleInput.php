@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Orchid\Screen\Concerns\Multipliable;
 use Orchid\Screen\Field;
 
@@ -59,39 +60,53 @@ class MultipleInput extends Field
 
         $errors = $this->getErrorsMessage();
 
+        $value = $this->get('value');
         $content = [];
 
-        foreach ($this->get('value') as $item) {
-
-            $renderers = [];
-            foreach ($this->get('renderers') as $origRenderer) {
-                /** @var Field $origRenderer */
-                $renderer = clone $origRenderer;
-                $renderer->value($item->{$renderer->get('name')});
-                $renderer->name($this->get('name') . "[$item->id][" . $renderer->get('name') . ']');
-                $renderers[] = $renderer;
-            }
-
-            $content[] = view($this->view, array_merge($this->getAttributes(), [
-                'attributes'     => $this->getAllowAttributes(),
-                'dataAttributes' => $this->getAllowDataAttributes(),
-                'id'             => $id,
-                'old'            => $this->getOldValue(),
-                'slug'           => $this->getSlug(),
-                'oldName'        => $this->getOldName(),
-                'typeForm'       => $this->typeForm ?? $this->vertical()->typeForm,
-
-                'renderers' => $renderers,
-                'item'      => $item,
-            ]))->render();
+        if (!$value->isEmpty()) {
+            foreach ($value as $item) {
+                $content[] = $this->renderInputs($item);
 //                ->withErrors($errors);
+            }
         }
 
         return view('fields.multiple-input-wrapper', [
-            'attributes' => $this->getAllowAttributes(),
-            'value'      => $this->get('value'),
-            'properties' => $this->get('properties'),
-            'content'    => implode($content),
+            'attributes'   => $this->getAllowAttributes(),
+            'value'        => $value,
+            'properties'   => $this->get('properties'),
+            'content'      => implode($content),
+            'rowTemplate' => $this->renderInputs(),
         ]);
+    }
+
+    protected function renderInputs(?Model $item = null): string
+    {
+        $renderers = [];
+        foreach ($this->get('renderers') as $origRenderer) {
+            /** @var Field $origRenderer */
+            $renderer = clone $origRenderer;
+
+            if ($item) {
+                $renderer->value($item->{$renderer->get('name')});
+                $renderer->name($this->get('name') . "[$item->id][" . $renderer->get('name') . ']');
+            } else {
+                $renderer->name($this->get('name') . "[0][" . $renderer->get('name') . ']');
+            }
+            $renderers[] = $renderer;
+        }
+
+        return view($this->view, array_merge($this->getAttributes(), [
+            'attributes'     => $this->getAllowAttributes(),
+            'dataAttributes' => $this->getAllowDataAttributes(),
+            'id'             => $this->get('id'),
+            'old'            => $this->getOldValue(),
+            'slug'           => $this->getSlug(),
+            'oldName'        => $this->getOldName(),
+            'typeForm'       => $this->typeForm ?? $this->vertical()->typeForm,
+
+            'hidden'    => is_null($item),
+            'renderers' => $renderers,
+            'item'      => $item,
+        ]))->render();
     }
 }

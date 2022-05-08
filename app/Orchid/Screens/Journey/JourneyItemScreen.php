@@ -77,7 +77,7 @@ class JourneyItemScreen extends Screen
             'fuel.mileage'       => $mileage,
 
             'transactions.income'  => $income,
-            'transactions.expense' => $expense,
+            'transactions.expense' => abs($expense),
             'transactions.total'   => $transactionsTotal,
         ];
     }
