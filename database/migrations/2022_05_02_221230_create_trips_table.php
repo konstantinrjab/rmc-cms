@@ -21,7 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('truck_id')->nullable();
             $table->unsignedBigInteger('locality_from_id');
             $table->unsignedBigInteger('locality_to_id');
-            $table->string('status');
+            $table->string('payment_status');
+            $table->string('delivery_status');
             $table->unsignedInteger('distance')->nullable();
             $table->unsignedInteger('fuel_remains')->nullable();
             $table->dateTime('start_time')->nullable();

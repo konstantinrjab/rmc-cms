@@ -110,7 +110,7 @@ class TripEditScreen extends Screen
             ->fill($data)
             ->save();
 
-        if ($data['status'] == Trip::STATUS_IN_PROGRESS) {
+        if ($data['delivery_status'] == Trip::DELIVERY_STATUS_IN_PROGRESS) {
             $trip->truck->status = Truck::STATUS_ON_THE_WAY;
             $trip->truck->save();
         }

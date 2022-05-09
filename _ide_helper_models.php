@@ -210,23 +210,24 @@ namespace App\Models{
  * @property int $id
  * @property int|null $journey_id
  * @property int $client_id
- * @property int $employee_id
- * @property int $truck_id
+ * @property int|null $employee_id
+ * @property int|null $truck_id
  * @property int $locality_from_id
  * @property int $locality_to_id
- * @property string $status
- * @property int $distance
+ * @property string $payment_status
+ * @property string $delivery_status
+ * @property int|null $distance
  * @property int|null $fuel_remains
- * @property \Illuminate\Support\Carbon $start_time
- * @property \Illuminate\Support\Carbon $finish_time
+ * @property \Illuminate\Support\Carbon|null $start_time
+ * @property \Illuminate\Support\Carbon|null $finish_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Client $client
- * @property-read \App\Models\Employee $employee
+ * @property-read \App\Models\Employee|null $employee
  * @property-read \App\Models\Journey|null $journey
  * @property-read \App\Models\Locality $localityFrom
  * @property-read \App\Models\Locality $localityTo
- * @property-read \App\Models\Truck $truck
+ * @property-read \App\Models\Truck|null $truck
  * @method static \Illuminate\Database\Eloquent\Builder|Trip defaultSort(string $column, string $direction = 'asc')
  * @method static \Database\Factories\TripFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip filters(?\Orchid\Filters\HttpFilter $httpFilter = null)
@@ -237,6 +238,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip query()
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereClientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereDeliveryStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereDistance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFinishTime($value)
@@ -245,8 +247,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereJourneyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityFromId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityToId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip wherePaymentStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereStartTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTruckId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereUpdatedAt($value)
  */
@@ -265,6 +267,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Employee|null $employee
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FuelTransaction[] $fuelTransactions
+ * @property-read int|null $fuel_transactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
+ * @property-read int|null $trips_count
  * @method static \Illuminate\Database\Eloquent\Builder|Truck defaultSort(string $column, string $direction = 'asc')
  * @method static \Database\Factories\TruckFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Truck filters(?\Orchid\Filters\HttpFilter $httpFilter = null)

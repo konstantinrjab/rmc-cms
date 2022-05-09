@@ -70,12 +70,17 @@ class TripEditLayout extends Rows
                 ->title(__('Locality To'))
                 ->placeholder(__('Locality To')),
 
-            Select::make('trip.status')
+            Select::make('trip.delivery_status')
                 ->required()
                 ->empty()
-                ->options(ViewHelper::selectOptions([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]))
-                ->title(__('Status'))
-                ->placeholder(__('Status')),
+                ->options(ViewHelper::selectOptions([Trip::DELIVERY_STATUS_ORDERED, Trip::DELIVERY_STATUS_IN_PROGRESS, Trip::DELIVERY_STATUS_DONE]))
+                ->title(__('Delivery Status')),
+
+            Select::make('trip.payment_status')
+                ->required()
+                ->empty()
+                ->options(ViewHelper::selectOptions([Trip::PAYMENT_STATUS_PAYED, Trip::PAYMENT_STATUS_REQUESTED]))
+                ->title(__('Payment Status')),
 
             Input::make('trip.distance')
                 ->type('number')

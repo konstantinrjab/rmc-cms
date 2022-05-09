@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
                 $trip->locality_from_id = Arr::random($localityIds);
                 $trip->locality_to_id = Arr::random($localityIds);
 
-                if ($trip->status == Trip::STATUS_ORDERED) {
+                if ($trip->delivery_status == Trip::DELIVERY_STATUS_ORDERED) {
                     $trip->truck_id = null;
                     $trip->employee_id = null;
                     $trip->start_time = null;

@@ -70,14 +70,24 @@ class TripListLayout extends Table
                     return $trip->localityTo->name;
                 }),
 
-            TD::make('status', __('Status'))
+            TD::make('delivery_status', __('Delivery Status'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Trip::STATUS_ORDERED, Trip::STATUS_IN_PROGRESS, Trip::STATUS_DONE]))
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Trip::DELIVERY_STATUS_ORDERED, Trip::DELIVERY_STATUS_IN_PROGRESS, Trip::DELIVERY_STATUS_DONE]))
                 ->render(function (Trip $trip) {
-                    return match($trip->status) {
-                        Trip::STATUS_ORDERED => '<span class="text-primary">' . __(Trip::STATUS_ORDERED) . '</span>',
-                        Trip::STATUS_DONE => '<span class="text-success">' . __(Trip::STATUS_DONE) . '</span>',
-                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
+                    return match($trip->delivery_status) {
+                        Trip::DELIVERY_STATUS_ORDERED => '<span class="text-primary">' . __(Trip::DELIVERY_STATUS_ORDERED) . '</span>',
+                        Trip::DELIVERY_STATUS_DONE => '<span class="text-success">' . __(Trip::DELIVERY_STATUS_DONE) . '</span>',
+                        Trip::DELIVERY_STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::DELIVERY_STATUS_IN_PROGRESS) . '</span>',
+                    };
+                }),
+
+            TD::make('payment_status', __('Payment Status'))
+                ->sort()
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Trip::DELIVERY_STATUS_ORDERED, Trip::DELIVERY_STATUS_IN_PROGRESS, Trip::DELIVERY_STATUS_DONE]))
+                ->render(function (Trip $trip) {
+                    return match($trip->payment_status) {
+                        Trip::PAYMENT_STATUS_PAYED => '<span class="text-success">' . __(Trip::PAYMENT_STATUS_PAYED) . '</span>',
+                        Trip::PAYMENT_STATUS_REQUESTED => '<span class="text-danger">' . __(Trip::PAYMENT_STATUS_REQUESTED) . '</span>',
                     };
                 }),
 

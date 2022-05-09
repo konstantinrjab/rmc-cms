@@ -47,12 +47,12 @@ class JourneyItemLayout extends Table
                     return $trip->localityTo->name;
                 }),
 
-            TD::make('status', __('Status'))
+            TD::make('delivery_status', __('Delivery Status'))
                 ->render(function (Trip $trip) {
-                    return match ($trip->status) {
-                        Trip::STATUS_ORDERED => '<span class="text-primary">' . __(Trip::STATUS_ORDERED) . '</span>',
-                        Trip::STATUS_DONE => '<span class="text-success">' . __(Trip::STATUS_DONE) . '</span>',
-                        Trip::STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
+                    return match ($trip->delivery_status) {
+                        Trip::DELIVERY_STATUS_ORDERED => '<span class="text-primary">' . __(Trip::DELIVERY_STATUS_ORDERED) . '</span>',
+                        Trip::DELIVERY_STATUS_DONE => '<span class="text-success">' . __(Trip::DELIVERY_STATUS_DONE) . '</span>',
+                        Trip::DELIVERY_STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::DELIVERY_STATUS_IN_PROGRESS) . '</span>',
                     };
                 }),
 

@@ -16,9 +16,12 @@ class Trip extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
-    public const STATUS_ORDERED = 'ordered';
-    public const STATUS_IN_PROGRESS = 'in progress';
-    public const STATUS_DONE = 'done';
+    public const DELIVERY_STATUS_ORDERED = 'ordered';
+    public const DELIVERY_STATUS_IN_PROGRESS = 'in progress';
+    public const DELIVERY_STATUS_DONE = 'done';
+
+    public const PAYMENT_STATUS_PAYED = 'Payed';
+    public const PAYMENT_STATUS_REQUESTED = 'Requested';
 
     protected $fillable = [
         'journey_id',
@@ -27,7 +30,8 @@ class Trip extends Model
         'truck_id',
         'locality_from_id',
         'locality_to_id',
-        'status',
+        'delivery_status',
+        'payment_status',
         'distance',
         'fuel_remains',
         'start_time',
@@ -51,7 +55,8 @@ class Trip extends Model
         'truck_id',
         'locality_from_id',
         'locality_to_id',
-        'status',
+        'delivery_status',
+        'payment_status',
         'distance',
         'fuel_remains',
         'start_time',
@@ -65,7 +70,8 @@ class Trip extends Model
         'truck_id',
         'locality_from_id',
         'locality_to_id',
-        'status',
+        'delivery_status',
+        'payment_status',
         'distance',
         'fuel_remains',
         'start_time',
