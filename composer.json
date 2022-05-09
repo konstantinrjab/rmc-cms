@@ -51,7 +51,8 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:models -M",
             "@php artisan ide-helper:meta"
-        ]
+        ],
+        "fresh": "XDEBUG_MODE=off php artisan migrate:fresh --seed"
     },
     "extra": {
         "laravel": {

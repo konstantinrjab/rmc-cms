@@ -299,18 +299,18 @@ Route::screen('fuel-transactions/create', \App\Orchid\Screens\Fuel\FuelTransacti
             ->push(__('Create'), route('platform.fuel_transactions.create'));
     });
 
-Route::screen('fuel-transactions/{fuelTransaction}', \App\Orchid\Screens\Fuel\FuelTransactionItemScreen::class)
-    ->name('platform.fuel_transactions.item')
-    ->breadcrumbs(function (Trail $trail, $user) {
-        return $trail
-            ->parent('platform.fuel_transactions')
-            ->push(__('Fuel Transactions'), route('platform.fuel_transactions.item', $user));
-    });
-
 Route::screen('fuel-transactions/analytics', \App\Orchid\Screens\Fuel\FuelTransactionAnalyticsScreen::class)
     ->name('platform.fuel_transactions.analytics')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.fuel_transactions')
             ->push(__('Analytics'), route('platform.fuel_transactions.analytics'));
+    });
+
+Route::screen('fuel-transactions/{fuelTransaction}', \App\Orchid\Screens\Fuel\FuelTransactionItemScreen::class)
+    ->name('platform.fuel_transactions.item')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.fuel_transactions')
+            ->push(__('Fuel Transactions'), route('platform.fuel_transactions.item', $user));
     });

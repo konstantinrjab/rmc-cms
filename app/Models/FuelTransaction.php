@@ -17,9 +17,9 @@ class FuelTransaction extends Model
     public const TYPE_INCOME = 'income';
     public const TYPE_EXPENSE = 'expense';
 
-    public const TYPE_GAS_STATION = 'gas station';
-    public const TYPE_TRUCK = 'truck';
-    public const TYPE_OTHER = 'other';
+    public const TYPE_OWN_STATION = 'Own Station';
+    public const TYPE_TRUCK = 'Truck';
+    public const TYPE_OTHER = 'Other';
 
     use HasFactory, AsSource, Attachable, Filterable;
 

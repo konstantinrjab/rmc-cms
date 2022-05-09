@@ -84,14 +84,21 @@ class FuelTransactionItemScreen extends Screen
     {
         return [
             Layout::legend('transaction', [
-                Sight::make('transaction_type', __('Transaction Type')),
+                Sight::make('transaction_type', __('Transaction Type'))->render(fn($e) => match ($e->transaction_type) {
+                    FuelTransaction::TYPE_INCOME => __('Income'),
+                    FuelTransaction::TYPE_EXPENSE => __('Expense'),
+                }),
                 Sight::make('fuel_type', __('Fuel Type')),
                 Sight::make('quantity', __('Quantity')),
                 Sight::make('source_id', __('Source'))->render(fn($e) => FuelTransaction::getSources()[$e->source_id]),
-                Sight::make('truck_id', __('Truck'))->render(fn($e) => ViewHelper::formatTruckName($e->truck)),
-                Sight::make('consumer_type', __('Consumer Type')),
+                Sight::make('truck_id', __('Truck'))->render(fn($e) => $e->truck ? ViewHelper::formatTruckName($e->truck) : ''),
+                Sight::make('consumer_type', __('Consumer Type'))->render(fn($e) => match ($e->consumer_type) {
+                    FuelTransaction::TYPE_OWN_STATION => __('Own Station'),
+                    FuelTransaction::TYPE_TRUCK => __('Truck'),
+                    FuelTransaction::TYPE_OTHER => __('Other'),
+                }),
                 Sight::make('price', __('Price')),
-                Sight::make('operator_id', __('Operator')),
+                Sight::make('operator_id', __('Operator'))->render(fn($e) => $e->operator->name),
                 Sight::make('comment', __('Comment')),
                 Sight::make('datetime', __('Date'))->render(fn($e) => $e->datetime->format('d.m.y')),
             ]),

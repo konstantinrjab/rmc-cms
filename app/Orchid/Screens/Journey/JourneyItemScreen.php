@@ -8,7 +8,6 @@ use App\Helpers\ViewHelper;
 use App\Models\FuelTransaction;
 use App\Models\Journey;
 use App\Models\JourneyTransaction;
-use App\Models\Trip;
 use App\Orchid\Layouts\Journey\JourneyItemLayout;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;

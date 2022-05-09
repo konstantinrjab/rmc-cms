@@ -16,7 +16,7 @@ class FuelConsumptionChart extends Chart
     /**
      * @var int
      */
-    protected $height = 350;
+    protected $height = 500;
 
     /**
      * Available options:
@@ -25,7 +25,7 @@ class FuelConsumptionChart extends Chart
      *
      * @var string
      */
-    protected $type = 'pie';
+    protected $type = 'bar';
 
     /**
      * @var string

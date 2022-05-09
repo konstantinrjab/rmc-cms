@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Fuel;
 
+use App\Helpers\ViewHelper;
 use App\Models\FuelTransaction;
 use App\Orchid\Layouts\Fuel\FuelConsumptionChart;
 use Illuminate\Support\Collection;
@@ -13,16 +14,15 @@ class FuelTransactionAnalyticsScreen extends Screen
     public function query(): iterable
     {
         $data = [];
-        $transactions = FuelTransaction::with('subject')->get();
-        /** @var Collection $transactionGroups */
-        $transactionGroups = $transactions->groupBy('subject_id');
+        $transactions = FuelTransaction::with(['operator', 'truck'])->get();
+        /** @var Collection $byTrucks */
+        $byTrucks = $transactions->filter(fn($e) => $e->truck_id)->groupBy('truck_id');
 
-        foreach ($transactionGroups as $transactionGroup) {
+        foreach ($byTrucks as $byTruck) {
 
-            $data[$transactionGroup->first()->subject->name] = $transactionGroup->sum(function (FuelTransaction $transaction) {
-                return $transaction->quantity;
-            });
+            $data[ViewHelper::formatTruckName($byTruck->first()->truck)] = $byTruck->sum(fn ($e) => $e->quantity);
         }
+        $data['Other'] = $transactions->filter(fn($e) => empty($e->truck_id))->sum(fn ($e) => $e->quantity);
 
         $consumption = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_EXPENSE);
         $replenishment = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_INCOME);

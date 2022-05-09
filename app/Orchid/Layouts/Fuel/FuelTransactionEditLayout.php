@@ -59,7 +59,7 @@ class FuelTransactionEditLayout extends Rows
 
             Select::make('fuelTransaction.consumer_type')
                 ->required()
-                ->options(ViewHelper::selectOptions([FuelTransaction::TYPE_TRUCK, FuelTransaction::TYPE_GAS_STATION, FuelTransaction::TYPE_OTHER]))
+                ->options(ViewHelper::selectOptions([FuelTransaction::TYPE_TRUCK, FuelTransaction::TYPE_OWN_STATION, FuelTransaction::TYPE_OTHER]))
                 ->empty()
                 ->title('Consumer Type'),
 

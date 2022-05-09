@@ -50,4 +50,9 @@ class Truck extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function fuelTransactions(): BelongsTo
+    {
+        return $this->belongsTo(FuelTransaction::class);
+    }
 }

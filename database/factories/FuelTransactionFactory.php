@@ -23,7 +23,7 @@ class FuelTransactionFactory extends Factory
             'quantity'         => $this->faker->numberBetween(50, 1000),
             'source_id'        => $this->faker->numberBetween(1, 3),
             'truck_id'         => null,
-            'consumer_type'    => $this->faker->randomElement([FuelTransaction::TYPE_TRUCK, FuelTransaction::TYPE_GAS_STATION, FuelTransaction::TYPE_OTHER]),
+            'consumer_type'    => $this->faker->boolean(80) ? FuelTransaction::TYPE_TRUCK : $this->faker->randomElement([FuelTransaction::TYPE_OWN_STATION, FuelTransaction::TYPE_OTHER]),
             'price'            => $this->faker->numberBetween(25, 35),
             'operator_id'      => 1,
             'comment'          => $this->faker->boolean ? $this->faker->sentence : null,
