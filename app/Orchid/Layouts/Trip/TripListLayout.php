@@ -49,7 +49,7 @@ class TripListLayout extends Table
                     return ViewHelper::formatTruckName($truck);
                 }))
                 ->render(function (Trip $trip) {
-                    return ViewHelper::formatTruckName($trip->truck);
+                    return $trip->truck ? ViewHelper::formatTruckName($trip->truck) : '';
                 }),
 
             TD::make('locality_from_id', __('Locality From'))

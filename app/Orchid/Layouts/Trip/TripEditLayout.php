@@ -45,14 +45,12 @@ class TripEditLayout extends Rows
                 ->placeholder(__('Client')),
 
             Select::make('trip.employee_id')
-                ->required()
                 ->empty()
                 ->options($employees)
                 ->title(__('Employee'))
                 ->placeholder(__('Employee')),
 
             Select::make('trip.truck_id')
-                ->required()
                 ->empty()
                 ->options($trucks)
                 ->title(__('Trucks'))
@@ -81,7 +79,6 @@ class TripEditLayout extends Rows
 
             Input::make('trip.distance')
                 ->type('number')
-                ->required()
                 ->title(__('Distance'))
                 ->placeholder(__('Distance')),
 
@@ -91,14 +88,12 @@ class TripEditLayout extends Rows
                 ->placeholder(__('Fuel Remains')),
 
             DateTimer::make('trip.start_time')
-                ->required()
                 ->format24hr()
                 ->enableTime()
                 ->title('Start Time')
                 ->help('Start Time'),
 
             DateTimer::make('trip.finish_time')
-                ->required()
                 ->format24hr()
                 ->enableTime()
                 ->title('Finish Time')

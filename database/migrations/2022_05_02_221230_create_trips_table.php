@@ -17,15 +17,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('journey_id')->nullable();
             $table->unsignedBigInteger('client_id');
-            $table->unsignedBigInteger('employee_id');
-            $table->unsignedBigInteger('truck_id');
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->unsignedBigInteger('truck_id')->nullable();
             $table->unsignedBigInteger('locality_from_id');
             $table->unsignedBigInteger('locality_to_id');
             $table->string('status');
-            $table->unsignedInteger('distance');
+            $table->unsignedInteger('distance')->nullable();
             $table->unsignedInteger('fuel_remains')->nullable();
-            $table->dateTime('start_time');
-            $table->dateTime('finish_time');
+            $table->dateTime('start_time')->nullable();
+            $table->dateTime('finish_time')->nullable();
             $table->timestamps();
 
             $table->foreign('journey_id')->references('id')->on('journeys');
