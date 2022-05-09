@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
@@ -15,9 +17,9 @@ class Employee extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
-    public const STATUS_OK = 'ok';
-    public const STATUS_ILL = 'ill';
-    public const STATUS_FIRED = 'fired';
+    public const STATUS_OK = 'Ok';
+    public const STATUS_ILL = 'Ill';
+    public const STATUS_FIRED = 'Fired';
 
     protected $fillable = [
         'name',
@@ -41,4 +43,14 @@ class Employee extends Model
         'position',
         'status',
     ];
+
+    public function truck(): HasOne
+    {
+        return $this->hasOne(Truck::class);
+    }
+
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Trip::class);
+    }
 }

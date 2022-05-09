@@ -29,7 +29,7 @@
     "Zakarpattia Oblast": "Закарпатська",
     "Zaporizhzhia Oblast": "Запоріжська",
     "Zhytomyr Oblast": "Житомирська",
-    "ok": "ок",
+    "Ok": "ок",
     "Number": "Номер",
     "Employee": "Працівник",
     "Employees": "Працівники",
@@ -64,6 +64,7 @@
     "Delivery Status": "Статус Доставки",
     "Payed": "Сплачено",
     "Requested": "Запрошено",
+    "On the way": "В дорозі",
     "Transportation": "Транспортація",
     "Glossary": "Глосарій",
     "Localities": "Населені пункти",
@@ -101,6 +102,6 @@
     "Expense": "Витрата",
     "Dates": "Дати",
     "Add More": "Додати ще",
-    "ill": "хворий",
-    "fired": "звільнено"
+    "Ill": "Хворий",
+    "Fired": "Звільнено"
 }

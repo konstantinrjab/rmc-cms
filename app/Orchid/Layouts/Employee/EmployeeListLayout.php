@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Employee;
 
 use App\Helpers\ViewHelper;
 use App\Models\Employee;
+use App\Models\Trip;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
@@ -39,10 +40,16 @@ class EmployeeListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Employee::STATUS_OK, Employee::STATUS_ILL, Employee::STATUS_FIRED]))
                 ->render(function (Employee $employee) {
+                    $onRoad = $employee->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
+
+                    if ($onRoad) {
+                        return '<span class="text-success">' . __('On the way') . '</span>';
+                    }
+
                     return match($employee->status) {
-                        Employee::STATUS_OK => '<span class="text-success">' . __('ok') . '</span>',
-                        Employee::STATUS_ILL => '<span class="text-danger">' . __('ill') . '</span>',
-                        Employee::STATUS_FIRED => '<span class="text-secondary">' . __('fired') . '</span>',
+                        Employee::STATUS_OK => '<span class="text-info">' . __('Ok') . '</span>',
+                        Employee::STATUS_ILL => '<span class="text-danger">' . __('Ill') . '</span>',
+                        Employee::STATUS_FIRED => '<span class="text-secondary">' . __('Fired') . '</span>',
                     };
                 }),
 

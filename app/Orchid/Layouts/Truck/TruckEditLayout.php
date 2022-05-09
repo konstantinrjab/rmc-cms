@@ -41,7 +41,7 @@ class TruckEditLayout extends Rows
             Select::make('truck.status')
                 ->required()
                 ->empty(__('No select'))
-                ->options(ViewHelper::selectOptions([Truck::STATUS_OK, Truck::STATUS_ON_THE_WAY, Truck::STATUS_UNDER_REPAIR]))
+                ->options(ViewHelper::selectOptions([Truck::STATUS_IDLE, Truck::STATUS_ON_THE_WAY, Truck::STATUS_UNDER_REPAIR]))
                 ->title(__('Status'))
                 ->placeholder(__('Status')),
 

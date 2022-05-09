@@ -17,7 +17,7 @@ class Truck extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
-    public const STATUS_OK = 'ok';
+    public const STATUS_IDLE = 'Idle';
     public const STATUS_UNDER_REPAIR = 'under repair';
     public const STATUS_ON_THE_WAY = 'on the way';
 

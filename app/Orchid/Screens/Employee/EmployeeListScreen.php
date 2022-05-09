@@ -15,7 +15,7 @@ class EmployeeListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'employees' => Employee::filters()->defaultSort('name')->paginate(),
+            'employees' => Employee::filters()->defaultSort('name')->with(['truck', 'trips'])->paginate(),
         ];
     }
 

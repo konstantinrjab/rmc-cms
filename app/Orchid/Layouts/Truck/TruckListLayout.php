@@ -47,11 +47,11 @@ class TruckListLayout extends Table
 
             TD::make('status', __('Status'))
                 ->sort()
-                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Truck::STATUS_OK, Truck::STATUS_UNDER_REPAIR]))
+                ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Truck::STATUS_IDLE, Truck::STATUS_UNDER_REPAIR]))
                 ->render(function (Truck $truck) {
                     return match($truck->status) {
                         Truck::STATUS_UNDER_REPAIR => '<span class="text-danger">' . __(Truck::STATUS_UNDER_REPAIR) . '</span>',
-                        Truck::STATUS_OK => '<span class="text-info">' . __(Truck::STATUS_OK) . '</span>',
+                        Truck::STATUS_IDLE => '<span class="text-info">' . __(Truck::STATUS_IDLE) . '</span>',
                         Truck::STATUS_ON_THE_WAY => '<span class="text-success">' . __(Truck::STATUS_ON_THE_WAY) . '</span>',
                     };
                 }),

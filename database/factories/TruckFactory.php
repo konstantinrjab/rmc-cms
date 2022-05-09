@@ -26,7 +26,7 @@ class TruckFactory extends Factory
         return [
             'name'   => $this->faker->randomElement(['Reno', 'Volvo', 'Mercedes']) . ' ' . ucfirst($this->faker->word()),
             'number' => strtoupper($number),
-            'status' => $this->faker->randomElement([Truck::STATUS_OK, Truck::STATUS_UNDER_REPAIR]),
+            'status' => $this->faker->randomElement([Truck::STATUS_IDLE, Truck::STATUS_UNDER_REPAIR]),
         ];
     }
 }
