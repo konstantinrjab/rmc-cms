@@ -44,6 +44,9 @@ namespace App\Models{
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
+ * @property-read int|null $trips_count
+ * @property-read \App\Models\Truck|null $truck
  * @method static \Illuminate\Database\Eloquent\Builder|Employee defaultSort(string $column, string $direction = 'asc')
  * @method static \Database\Factories\EmployeeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee filters(?\Orchid\Filters\HttpFilter $httpFilter = null)

@@ -49,15 +49,16 @@ class JourneyItemScreen extends Screen
 
         foreach ($trips as $trip) {
             $distance += $trip->distance;
+        }
 
+        foreach ($journey->trips->pluck('truck')->unique() as $truck) {
             $fuelReplenishment = FuelTransaction::where([
-                'truck_id'         => $trip->truck_id,
+                'truck_id'         => $truck->id,
                 'transaction_type' => FuelTransaction::TYPE_EXPENSE,
             ])
                 ->whereBetween('datetime', [$trips->first()->start_time, $trips->last()->finish_time])
                 ->get()
-                ->pluck('quantity')
-                ->sum();
+                ->sum(fn($e) => $e->quantity);
 
             $fuelReplenishmentTotal += $fuelReplenishment;
         }

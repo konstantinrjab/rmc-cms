@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Truck;
 
 use App\Helpers\ViewHelper;
 use App\Models\Employee;
+use App\Models\Trip;
 use App\Models\Truck;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -49,6 +50,12 @@ class TruckListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Truck::STATUS_IDLE, Truck::STATUS_UNDER_REPAIR]))
                 ->render(function (Truck $truck) {
+                    $activeTrip = $truck->employee->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
+
+                    if ($activeTrip) {
+                        return '<a href="' . route('platform.trips.edit', $activeTrip->id) . '"><span class="text-success fw-bolder">' . __('On the way') . '</span></a>';
+                    }
+
                     return match($truck->status) {
                         Truck::STATUS_UNDER_REPAIR => '<span class="text-danger">' . __(Truck::STATUS_UNDER_REPAIR) . '</span>',
                         Truck::STATUS_IDLE => '<span class="text-info">' . __(Truck::STATUS_IDLE) . '</span>',

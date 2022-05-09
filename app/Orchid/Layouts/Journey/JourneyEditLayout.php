@@ -50,7 +50,7 @@ class JourneyEditLayout extends Rows
                 ->title('Comment'),
 
             Matrix::make('journey.transactions')
-                ->title('Users list')
+                ->title('Journey Transactions')
                 ->columns(['name', 'amount', 'comment'])
                 ->fields([
                     'name'   => Input::make(),

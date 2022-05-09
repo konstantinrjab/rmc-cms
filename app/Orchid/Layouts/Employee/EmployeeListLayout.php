@@ -43,7 +43,7 @@ class EmployeeListLayout extends Table
                     $activeTrip = $employee->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
 
                     if ($activeTrip) {
-                        return '<a href="' . route('platform.trips.edit', $activeTrip->id) . '"><span class="text-success">' . __('On the way') . '</span></a>';
+                        return '<a href="' . route('platform.trips.edit', $activeTrip->id) . '"><span class="text-success fw-bolder">' . __('On the way') . '</span></a>';
                     }
 
                     return match($employee->status) {

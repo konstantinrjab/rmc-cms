@@ -23,7 +23,7 @@ class JourneyListLayout extends Table
             TD::make('id', __('Id'))
                 ->sort()
                 ->render(function (Journey $journey) {
-                    return '<a href="' . route('platform.journeys.item', $journey->id) . '">' . $journey->id . '</a>';
+                    return '<a href="' . route('platform.journeys.item', $journey->id) . '"><span class="fw-bolder">' . $journey->id . '</span></a>';
                 }),
 
             TD::make('employee_id', __('Employee'))

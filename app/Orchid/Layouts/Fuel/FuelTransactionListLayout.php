@@ -21,15 +21,13 @@ class FuelTransactionListLayout extends Table
     public function columns(): array
     {
         $trucks = Truck::all();
-        $employees = Employee::all();
-        $employeeOptions = $employees->keyBy('id')->map(fn($e) => $e->name);
         $truckOptions = $trucks->keyBy('id')->map(fn($e) => ViewHelper::formatTruckName($e));
 
         return [
             TD::make('id', __('ID'))
                 ->sort()
                 ->render(function (FuelTransaction $transaction) {
-                    return '<a href="' . route('platform.fuel_transactions.item', $transaction->id) . '">' . $transaction->id . '</a>';
+                    return '<a href="' . route('platform.fuel_transactions.item', $transaction->id) . '"><span class="fw-bolder">' . $transaction->id . '</span></a>';
                 }),
 
             TD::make('truck_id', __('Consumer'))

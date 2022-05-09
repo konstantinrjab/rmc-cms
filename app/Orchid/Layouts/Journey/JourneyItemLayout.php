@@ -19,7 +19,7 @@ class JourneyItemLayout extends Table
 
             TD::make('id', __('ID'))
                 ->render(function (Trip $trip) {
-                    return '<a href="' . route('platform.trips.edit', $trip->id) . '">' . $trip->id . '</a>';
+                    return '<a href="' . route('platform.trips.edit', $trip->id) . '"><span class="fw-bolder">' . $trip->id . '</span></a>';
                 }),
 
             TD::make('client_id', __('Client'))

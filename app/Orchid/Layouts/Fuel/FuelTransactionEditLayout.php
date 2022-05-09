@@ -36,7 +36,8 @@ class FuelTransactionEditLayout extends Rows
                     FuelTransaction::TYPE_EXPENSE => __('Expense'),
                 ])
                 ->empty()
-                ->title('Transaction type'),
+                ->title('Transaction type')
+                ->help('Fuel balance. Refueling your truck is fuel consumption, refueling your gas station is fuel replenishment'),
 
             Select::make('fuelTransaction.fuel_type')
                 ->required()
@@ -63,14 +64,14 @@ class FuelTransactionEditLayout extends Rows
                 ->empty()
                 ->title('Consumer Type'),
 
-            Select::make('fuelTransaction.consumer_id')
+            Select::make('fuelTransaction.truck_id')
                 ->options($trucksOptions)
                 ->empty()
                 ->title('Consumer'),
 
             Input::make('fuelTransaction.price')
                 ->type('number')
-                ->title('Price'),
+                ->title('Price per liter'),
 
             Select::make('fuelTransaction.operator_id')
                 ->options($employeesOptions)

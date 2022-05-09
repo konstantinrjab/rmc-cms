@@ -113,6 +113,9 @@ class TripEditScreen extends Screen
         if ($data['delivery_status'] == Trip::DELIVERY_STATUS_IN_PROGRESS) {
             $trip->truck->status = Truck::STATUS_ON_THE_WAY;
             $trip->truck->save();
+        } elseif (!Trip::all()->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS)) {
+            $trip->truck->status = Truck::STATUS_IDLE;
+            $trip->truck->save();
         }
 
         Toast::info(__('Trip was saved.'));
