@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Journey;
 
 use App\Helpers\ViewHelper;
+use App\Models\FuelTransaction;
 use App\Models\Journey;
 use App\Models\JourneyTransaction;
 use App\Models\Trip;
+use App\Orchid\Layouts\Journey\JourneyItemLayout;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -34,17 +36,7 @@ class JourneyItemScreen extends Screen
     public function query(Journey $journey): iterable
     {
         $journey->load(['trips', 'trips.client', 'trips.employee', 'trips.truck', 'trips.localityFrom', 'trips.localityTo', 'transactions']);
-
-        $fuelReplenishment = 0;
-        $distance = 0;
-
         $trips = $journey->trips->sortBy('start_time');
-
-        foreach ($trips as $trip) {
-            $distance += $trip->distance;
-//            $fuelReplenishment += $trip->fuel_refill;
-            $fuelReplenishment += 0;
-        }
 
         $startFuel = $trips->first()->fuel_remains;
         $finishFuel = $trips->last()->fuel_remains;
@@ -53,7 +45,25 @@ class JourneyItemScreen extends Screen
             Toast::warning(__('To calculate fuel consumption please set fuel remains for first and last trips'));
         }
 
-        $fuelUsed = $startFuel && $finishFuel ? $startFuel - $finishFuel + $fuelReplenishment : null;
+        $distance = 0;
+        $fuelReplenishmentTotal = 0;
+
+        foreach ($trips as $trip) {
+            $distance += $trip->distance;
+
+            $fuelReplenishment = FuelTransaction::where([
+                'truck_id'         => $trip->truck_id,
+                'transaction_type' => FuelTransaction::TYPE_EXPENSE,
+            ])
+                ->whereBetween('datetime', [$trips->first()->start_time, $trips->last()->finish_time])
+                ->get()
+                ->pluck('quantity')
+                ->sum();
+
+            $fuelReplenishmentTotal += $fuelReplenishment;
+        }
+
+        $fuelUsed = $startFuel && $finishFuel ? $startFuel - $finishFuel + $fuelReplenishmentTotal : null;
 
         $income = 0;
         $expense = 0;
@@ -72,10 +82,10 @@ class JourneyItemScreen extends Screen
             'journey.date_to'      => $journey->date_to->format('d.m.y'),
             'journey.duration'     => $journey->date_to->diffInDays($journey->date_from),
 
-            'fuel.replenishment' => $fuelReplenishment,
+            'fuel.replenishment' => $fuelReplenishmentTotal,
             'fuel.used'          => $fuelUsed,
             'fuel.consumption'   => number_format($fuelUsed / $distance * 100, 2) . ' ' . __('l/100 km'),
-            'fuel.distance'       => $distance,
+            'fuel.distance'      => $distance,
 
             'transactions.income'  => $income,
             'transactions.expense' => abs($expense),
@@ -132,116 +142,59 @@ class JourneyItemScreen extends Screen
     {
         return [
 
-            Layout::table('journey.trips', [
+            Layout::blank([
+                new JourneyItemLayout(),
 
-                TD::make('trip_id', __('ID'))
-                    ->render(function (Trip $trip) {
-                        return '<a href="' . route('platform.trips.edit', $trip->id) . '">' . $trip->id . '</a>';
-                    }),
+                Layout::legend('journey', [
+                    Sight::make('comment', __('Comment'))
+                        ->render(function (Journey $journey) {
+                            return $journey->comment;
+                        }),
+                ])
+                    ->title(__('Comment')),
 
-                TD::make('client_id', __('Client'))
-                    ->render(function (Trip $trip) {
-                        return $trip->client->name;
-                    }),
+                Layout::table('journey.transactions', [
+                    TD::make('name', __('Name'))
+                        ->cantHide(),
 
-                TD::make('employee_id', __('Client'))
-                    ->render(function (Trip $trip) {
-                        return $trip->employee->name;
-                    }),
+                    TD::make('amount', __('Amount'))
+                        ->render(function (JourneyTransaction $transaction) {
+                            $isExpense = $transaction->amount < 0;
 
-                TD::make('truck_id', __('Truck'))
-                    ->render(function (Trip $trip) {
-                        return ViewHelper::formatTruckName($trip->truck);
-                    }),
+                            return '<span class="'
+                                . ($isExpense ? 'text-danger' : 'text-success')
+                                . "\">$transaction->amount</span>";
+                        })
+                        ->cantHide(),
 
-                TD::make('locality_from_id', __('Locality From'))
-                    ->render(function (Trip $trip) {
-                        return $trip->localityFrom->name;
-                    }),
+                    TD::make('comment', __('Comment'))
+                        ->cantHide(),
+                ])
+                    ->title(__('Transactions')),
 
-                TD::make('locality_to_id', __('Locality To'))
-                    ->render(function (Trip $trip) {
-                        return $trip->localityTo->name;
-                    }),
+                Layout::metrics([
+                    'Income'  => 'transactions.income',
+                    'Expense' => 'transactions.expense',
+                    'Total'   => 'transactions.total',
+                ])
+                    ->title(__('Transactions Summary')),
 
-                TD::make('status', __('Status'))
-                    ->render(function (Trip $trip) {
-                        return match ($trip->status) {
-                            Trip::STATUS_ORDERED => '<span class="text-primary">' . __(Trip::STATUS_ORDERED) . '</span>',
-                            Trip::STATUS_DONE => '<span class="text-success">' . __(Trip::STATUS_DONE) . '</span>',
-                            Trip::STATUS_IN_PROGRESS => '<span class="text-warning">' . __(Trip::STATUS_IN_PROGRESS) . '</span>',
-                        };
-                    }),
+                Layout::metrics([
+                    'Fuel Replenishment' => 'fuel.replenishment',
+                    'Fuel Used'          => 'fuel.used',
+                    'Total Distance'     => 'fuel.distance',
+                    'Fuel Consumption'   => 'fuel.consumption',
+                ])
+                    ->title(__('Fuel Analytics')),
 
-                TD::make('distance', __('Distance'))
-                    ->render(function (Trip $trip) {
-                        return $trip->distance;
-                    }),
-
-                TD::make('fuel_remains', __('Fuel Remains'))
-                    ->render(function (Trip $trip) {
-                        return $trip->fuel_remains;
-                    }),
-
-                TD::make('start_time', __('Start Time'))
-                    ->render(function (Trip $trip) {
-                        return $trip->start_time;
-                    }),
-
-                TD::make('finish_time', __('Finish Time'))
-                    ->render(function (Trip $trip) {
-                        return $trip->finish_time;
-                    }),
+                Layout::metrics([
+                    'Date From'       => 'journey.date_from',
+                    'Date To'         => 'journey.date_to',
+                    'Duration (days)' => 'journey.duration',
+                ])
+                    ->title(__('Dates')),
             ]),
 
-            Layout::legend('journey', [
-                Sight::make('comment', __('Comment'))
-                    ->render(function (Journey $journey) {
-                        return $journey->comment;
-                    }),
-            ])
-                ->title(__('Comment')),
-
-            Layout::table('journey.transactions', [
-                TD::make('name', __('Name'))
-                    ->cantHide(),
-
-                TD::make('amount', __('Amount'))
-                    ->render(function (JourneyTransaction $transaction) {
-                        $isExpense = $transaction->amount < 0;
-
-                        return '<span class="'
-                            . ($isExpense ? 'text-danger' : 'text-success')
-                            . "\">$transaction->amount</span>";
-                    })
-                    ->cantHide(),
-
-                TD::make('comment', __('Comment'))
-                    ->cantHide(),
-            ])
-                ->title(__('Transactions')),
-
-            Layout::metrics([
-                'Income'  => 'transactions.income',
-                'Expense' => 'transactions.expense',
-                'Total'   => 'transactions.total',
-            ])
-                ->title(__('Transactions Summary')),
-
-            Layout::metrics([
-                'Fuel Replenishment' => 'fuel.replenishment',
-                'Fuel Used'          => 'fuel.used',
-                'Total Distance'      => 'fuel.distance',
-                'Fuel Consumption'   => 'fuel.consumption',
-            ])
-                ->title(__('Fuel Analytics')),
-
-            Layout::metrics([
-                'Date From'       => 'journey.date_from',
-                'Date To'         => 'journey.date_to',
-                'Duration (days)' => 'journey.duration',
-            ])
-                ->title(__('Dates')),
         ];
     }
 }

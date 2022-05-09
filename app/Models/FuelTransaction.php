@@ -79,4 +79,13 @@ class FuelTransaction extends Model
     {
         return $this->belongsTo(Truck::class);
     }
+
+    public static function getSources(): array
+    {
+        return [
+            1 => __('Amic'),
+            2 => __('Tank Farm'),
+            3 => __('Own Station'),
+        ];
+    }
 }

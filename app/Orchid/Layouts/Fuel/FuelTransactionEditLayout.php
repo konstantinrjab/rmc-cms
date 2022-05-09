@@ -52,7 +52,7 @@ class FuelTransactionEditLayout extends Rows
                 ->title(__('Quantity')),
 
             Select::make('fuelTransaction.source_id')
-                ->options([1 => __('Amic'), 2 => __('Tank Farm'), 3 => __('Own Station')])
+                ->options(FuelTransaction::getSources())
                 ->required()
                 ->empty()
                 ->title('Source'),

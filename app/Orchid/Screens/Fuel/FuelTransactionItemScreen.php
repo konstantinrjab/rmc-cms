@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Fuel;
 
+use App\Helpers\ViewHelper;
 use App\Models\FuelTransaction;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
+use Orchid\Screen\Sight;
+use Orchid\Support\Facades\Layout;
 
 class FuelTransactionItemScreen extends Screen
 {
@@ -28,7 +31,7 @@ class FuelTransactionItemScreen extends Screen
     {
 
         return [
-            'transaction'              => $transaction,
+            'transaction' => $transaction,
         ];
     }
 
@@ -80,6 +83,18 @@ class FuelTransactionItemScreen extends Screen
     public function layout(): iterable
     {
         return [
+            Layout::legend('transaction', [
+                Sight::make('transaction_type', __('Transaction Type')),
+                Sight::make('fuel_type', __('Fuel Type')),
+                Sight::make('quantity', __('Quantity')),
+                Sight::make('source_id', __('Source'))->render(fn($e) => FuelTransaction::getSources()[$e->source_id]),
+                Sight::make('truck_id', __('Truck'))->render(fn($e) => ViewHelper::formatTruckName($e->truck)),
+                Sight::make('consumer_type', __('Consumer Type')),
+                Sight::make('price', __('Price')),
+                Sight::make('operator_id', __('Operator')),
+                Sight::make('comment', __('Comment')),
+                Sight::make('datetime', __('Date'))->render(fn($e) => $e->datetime->format('d.m.y')),
+            ]),
         ];
     }
 }

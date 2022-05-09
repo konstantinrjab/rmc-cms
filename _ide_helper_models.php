@@ -70,14 +70,17 @@ namespace App\Models{
  * @property string $transaction_type
  * @property string $fuel_type
  * @property int $quantity
- * @property int $operator_id
- * @property int|null $subject_id
+ * @property int $source_id
+ * @property int|null $truck_id
+ * @property string $consumer_type
  * @property int|null $price
- * @property string|null $info
+ * @property int $operator_id
+ * @property string|null $comment
  * @property \Illuminate\Support\Carbon $datetime
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Employee|null $subject
+ * @property-read \App\Models\Employee $operator
+ * @property-read \App\Models\Truck|null $truck
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction defaultSort(string $column, string $direction = 'asc')
  * @method static \Database\Factories\FuelTransactionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction filters(?\Orchid\Filters\HttpFilter $httpFilter = null)
@@ -86,16 +89,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereConsumerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereDatetime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereFuelType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereOperatorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereSubjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereSourceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereTransactionType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereTruckId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FuelTransaction whereUpdatedAt($value)
  */
 	class IdeHelperFuelTransaction {}
@@ -210,9 +215,8 @@ namespace App\Models{
  * @property int $locality_from_id
  * @property int $locality_to_id
  * @property string $status
- * @property int $mileage
+ * @property int $distance
  * @property int|null $fuel_remains
- * @property int|null $fuel_refill
  * @property \Illuminate\Support\Carbon $start_time
  * @property \Illuminate\Support\Carbon $finish_time
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -233,15 +237,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip query()
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereClientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereDistance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFinishTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFuelRefill($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFuelRemains($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereJourneyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityFromId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityToId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereMileage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereStartTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTruckId($value)

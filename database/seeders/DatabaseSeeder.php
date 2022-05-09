@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
                 $trip->locality_from_id = Arr::random($localityIds);
                 $trip->locality_to_id = Arr::random($localityIds);
                 $trip->start_time = $faker->dateTimeBetween($journey->date_from, $journey->date_to);
-                $trip->finish_time = Arr::random($localityIds);
+                $trip->finish_time = $faker->dateTimeBetween($trip->start_time, $journey->date_to);
                 $trip->journey_id = $journey->id;
                 $trip->save();
             }

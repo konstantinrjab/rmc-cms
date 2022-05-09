@@ -6,7 +6,7 @@ use App\Models\Trip;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Trip>
  */
 class TripFactory extends Factory
 {
