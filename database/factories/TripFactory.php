@@ -25,7 +25,7 @@ class TripFactory extends Factory
             'locality_from_id' => 1,
             'locality_to_id'   => 1,
             'delivery_status'  => $this->faker->randomElement([Trip::DELIVERY_STATUS_ORDERED, Trip::DELIVERY_STATUS_IN_PROGRESS, Trip::DELIVERY_STATUS_DONE]),
-            'payment_status'   => $this->faker->randomElement([Trip::PAYMENT_STATUS_REQUESTED, Trip::PAYMENT_STATUS_PAYED]),
+            'payment_status'   => $this->faker->randomElement([Trip::PAYMENT_STATUS_NO_INVOICE, Trip::PAYMENT_STATUS_INVOICE_SENT, Trip::PAYMENT_STATUS_PAYED]),
             'distance'         => $this->faker->randomNumber(3),
             'fuel_remains'     => $this->faker->numberBetween(50, 1000),
             'start_time'       => $this->faker->dateTimeBetween('-1 week'),

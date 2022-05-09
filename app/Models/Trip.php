@@ -20,8 +20,9 @@ class Trip extends Model
     public const DELIVERY_STATUS_IN_PROGRESS = 'in progress';
     public const DELIVERY_STATUS_DONE = 'done';
 
-    public const PAYMENT_STATUS_PAYED = 'Payed';
-    public const PAYMENT_STATUS_REQUESTED = 'Requested';
+    public const PAYMENT_STATUS_PAYED = 'payed';
+    public const PAYMENT_STATUS_INVOICE_SENT = 'invoice sent';
+    public const PAYMENT_STATUS_NO_INVOICE = 'no invoice';
 
     protected $fillable = [
         'journey_id',

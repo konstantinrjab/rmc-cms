@@ -87,7 +87,8 @@ class TripListLayout extends Table
                 ->render(function (Trip $trip) {
                     return match($trip->payment_status) {
                         Trip::PAYMENT_STATUS_PAYED => '<span class="text-success">' . __(Trip::PAYMENT_STATUS_PAYED) . '</span>',
-                        Trip::PAYMENT_STATUS_REQUESTED => '<span class="text-danger">' . __(Trip::PAYMENT_STATUS_REQUESTED) . '</span>',
+                        Trip::PAYMENT_STATUS_NO_INVOICE => '<span class="text-danger">' . __(Trip::PAYMENT_STATUS_NO_INVOICE) . '</span>',
+                        Trip::PAYMENT_STATUS_INVOICE_SENT => '<span class="text-info">' . __(Trip::PAYMENT_STATUS_INVOICE_SENT) . '</span>',
                     };
                 }),
 
