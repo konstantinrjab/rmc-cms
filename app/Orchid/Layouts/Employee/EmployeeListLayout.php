@@ -40,10 +40,10 @@ class EmployeeListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Employee::STATUS_OK, Employee::STATUS_ILL, Employee::STATUS_FIRED]))
                 ->render(function (Employee $employee) {
-                    $onRoad = $employee->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
+                    $activeTrip = $employee->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
 
-                    if ($onRoad) {
-                        return '<span class="text-success">' . __('On the way') . '</span>';
+                    if ($activeTrip) {
+                        return '<a href="' . route('platform.trips.edit', $activeTrip->id) . '"><span class="text-success">' . __('On the way') . '</span></a>';
                     }
 
                     return match($employee->status) {
