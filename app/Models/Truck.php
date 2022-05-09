@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
@@ -51,8 +52,13 @@ class Truck extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function fuelTransactions(): BelongsTo
+    public function fuelTransactions(): HasMany
     {
-        return $this->belongsTo(FuelTransaction::class);
+        return $this->hasMany(FuelTransaction::class);
+    }
+
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Trip::class);
     }
 }

@@ -83,7 +83,7 @@ class JourneyItemScreen extends Screen
 
             'fuel.replenishment' => $fuelReplenishmentTotal,
             'fuel.used'          => $fuelUsed,
-            'fuel.consumption'   => number_format($fuelUsed / $distance * 100, 2) . ' ' . __('l/100 km'),
+            'fuel.consumption'   => ViewHelper::averageFuelConsumption($fuelUsed, $distance) . ' ' . __('l/100 km'),
             'fuel.distance'      => $distance,
 
             'transactions.income'  => $income,

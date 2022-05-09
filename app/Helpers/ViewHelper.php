@@ -39,4 +39,9 @@ class ViewHelper
 
         return $locality->district ?  $name . ', ' . $locality->district . ')' :  $name . ')';
     }
+
+    public static function averageFuelConsumption(int $liters, int $distance): string
+    {
+        return number_format($liters / $distance * 100, 2);
+    }
 }
