@@ -4,6 +4,7 @@ namespace App\Orchid\Screens\Fuel;
 
 use App\Helpers\ViewHelper;
 use App\Models\FuelTransaction;
+use App\Models\Trip;
 use App\Models\Truck;
 use App\Orchid\Layouts\Fuel\FuelConsumptionChart;
 use Illuminate\Support\Collection;
@@ -73,9 +74,21 @@ class FuelTransactionAnalyticsScreen extends Screen
                 TD::make('average_consumption', __('Average Consumption'))
                     ->render(function (Truck $truck) {
                         $consumption = $truck->fuelTransactions->isEmpty() ? 0 : $truck->fuelTransactions->sum(fn($e) => $e->quantity);
-                        $distance = $truck->trips->isEmpty() ? 1 : $truck->trips->sum(fn($e) => $e->distance);
 
-                        return ViewHelper::averageFuelConsumption($consumption, $distance);
+                        $firstTrip = Trip::where(['truck_id' => $truck->id])->orderBy('start_time')->first();
+
+                        $warning = null;
+                        if (!$firstTrip) {
+                            $warning = '<span class="text-info">' . __('No trips found') . '</span>';
+                        } elseif ($firstTrip->fuel_remains) {
+                            $consumption -= $firstTrip->fuel_remains;
+                        } else {
+                            $warning = '<a href="' . route('platform.trips.edit', $firstTrip->id) . '" class="text-right"><span class="text-info">' . __('Add fuel remains to the first trip') . '</span></a>';
+                        }
+
+                        $distance = $truck->trips->isEmpty() ? 0 : $truck->trips->sum(fn($e) => $e->distance);
+
+                        return '<span class="text-left">' . ViewHelper::averageFuelConsumption($consumption, $distance) . '</span>' . ($warning ? ' ' . $warning : '');
                     })
                     ->cantHide(),
             ])

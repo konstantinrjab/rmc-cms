@@ -42,6 +42,6 @@ class ViewHelper
 
     public static function averageFuelConsumption(int $liters, int $distance): string
     {
-        return number_format($liters / $distance * 100, 2);
+        return $distance == 0 ? 0 : number_format($liters / $distance * 100, 2);
     }
 }
