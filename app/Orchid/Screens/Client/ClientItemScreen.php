@@ -45,7 +45,7 @@ class ClientItemScreen extends Screen
             'trips'              => $client->trips,
             'metrics.debt'       => $format($client->trips, Trip::PAYMENT_STATUS_INVOICE_SENT),
             'metrics.no_invoice' => $format($client->trips, Trip::PAYMENT_STATUS_NO_INVOICE),
-            'metrics.earned'     => $format($client->trips, Trip::PAYMENT_STATUS_PAYED),
+            'metrics.payed'      => $format($client->trips, Trip::PAYMENT_STATUS_PAYED),
         ];
     }
 
@@ -56,7 +56,7 @@ class ClientItemScreen extends Screen
      */
     public function name(): ?string
     {
-        return __('Client');
+        return __('Client') . ': ' . $this->client->name;
     }
 
     /**
@@ -104,7 +104,7 @@ class ClientItemScreen extends Screen
                 Layout::metrics([
                     'Debt'       => 'metrics.debt',
                     'No Invoice' => 'metrics.no_invoice',
-                    'Earned'     => 'metrics.earned',
+                    'Payed'      => 'metrics.payed',
                 ])
                     ->title('Total'),
             ]),
