@@ -51,7 +51,7 @@ class FuelTransactionItemScreen extends Screen
     public function permission(): ?iterable
     {
         return [
-//            'platform.fuel_transactions.see',
+//            'platform.fuel_transactions.item',
         ];
     }
 

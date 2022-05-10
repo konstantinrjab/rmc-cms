@@ -18,6 +18,8 @@ namespace App\Models{
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
+ * @property-read int|null $trips_count
  * @method static \Illuminate\Database\Eloquent\Builder|Client defaultSort(string $column, string $direction = 'asc')
  * @method static \Database\Factories\ClientFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Client filters(?\Orchid\Filters\HttpFilter $httpFilter = null)
@@ -219,6 +221,7 @@ namespace App\Models{
  * @property int $locality_to_id
  * @property string $payment_status
  * @property string $delivery_status
+ * @property int|null $income
  * @property int|null $distance
  * @property int|null $fuel_remains
  * @property \Illuminate\Support\Carbon|null $start_time
@@ -247,6 +250,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFinishTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereFuelRemains($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereIncome($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereJourneyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityFromId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereLocalityToId($value)

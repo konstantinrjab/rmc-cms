@@ -164,6 +164,14 @@ Route::screen('clients/create', \App\Orchid\Screens\Client\ClientEditScreen::cla
             ->push(__('Create'), route('platform.clients.create'));
     });
 
+Route::screen('clients/{client}', \App\Orchid\Screens\Client\ClientItemScreen::class)
+    ->name('platform.clients.item')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.clients')
+            ->push(__('Clients'), route('platform.clients.item', $user));
+    });
+
 // localities
 Route::screen('localities', \App\Orchid\Screens\Locality\LocalityListScreen::class)
     ->name('platform.localities')

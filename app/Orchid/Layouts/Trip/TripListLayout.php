@@ -92,6 +92,14 @@ class TripListLayout extends Table
                     };
                 }),
 
+            TD::make('income', __('Income'))
+                ->sort()
+                ->defaultHidden()
+                ->filter(TD::FILTER_NUMBER_RANGE)
+                ->render(function (Trip $trip) {
+                    return $trip->income;
+                }),
+
             TD::make('distance', __('Distance'))
                 ->sort()
                 ->defaultHidden()

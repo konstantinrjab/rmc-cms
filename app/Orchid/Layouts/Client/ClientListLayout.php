@@ -19,6 +19,14 @@ class ClientListLayout extends Table
     public function columns(): array
     {
         return [
+            TD::make('id', __('ID'))
+                ->sort()
+                ->cantHide()
+                ->filter(Input::make())
+                ->render(function (Client $client) {
+                    return '<a href="' . route('platform.clients.item', $client->id) . '"><span class="fw-bolder">' . $client->id . '</span></a>';
+                }),
+
             TD::make('name', __('Name'))
                 ->sort()
                 ->cantHide()

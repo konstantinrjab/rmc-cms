@@ -8,7 +8,7 @@ use App\Helpers\ViewHelper;
 use App\Models\FuelTransaction;
 use App\Models\Journey;
 use App\Models\JourneyTransaction;
-use App\Orchid\Layouts\Journey\JourneyItemLayout;
+use App\Orchid\Layouts\Trip\TripListLayout;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -76,7 +76,7 @@ class JourneyItemScreen extends Screen
 
         return [
             'journey'              => $journey,
-            'journey.trips'        => $trips,
+            'trips'                => $trips,
             'journey.transactions' => $journey->transactions->sortBy('amount', SORT_REGULAR, true),
             'journey.date_from'    => $journey->date_from->format('d.m.y'),
             'journey.date_to'      => $journey->date_to->format('d.m.y'),
@@ -109,7 +109,7 @@ class JourneyItemScreen extends Screen
     public function permission(): ?iterable
     {
         return [
-//            'platform.journeys.see',
+//            'platform.journeys.item',
         ];
     }
 
@@ -143,7 +143,7 @@ class JourneyItemScreen extends Screen
         return [
 
             Layout::blank([
-                new JourneyItemLayout(),
+                TripListLayout::class,
 
                 Layout::legend('journey', [
                     Sight::make('comment', __('Comment'))

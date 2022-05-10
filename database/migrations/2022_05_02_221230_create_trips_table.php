@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('locality_to_id');
             $table->string('payment_status');
             $table->string('delivery_status');
+            $table->unsignedBigInteger('income')->nullable();
             $table->unsignedInteger('distance')->nullable();
             $table->unsignedInteger('fuel_remains')->nullable();
             $table->dateTime('start_time')->nullable();

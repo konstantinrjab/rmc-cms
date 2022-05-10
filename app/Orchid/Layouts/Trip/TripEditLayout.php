@@ -82,6 +82,11 @@ class TripEditLayout extends Rows
                 ->options(ViewHelper::selectOptions([Trip::PAYMENT_STATUS_PAYED, Trip::PAYMENT_STATUS_NO_INVOICE, Trip::PAYMENT_STATUS_INVOICE_SENT]))
                 ->title(__('Payment Status')),
 
+            Input::make('trip.income')
+                ->type('number')
+                ->title(__('Income'))
+                ->placeholder(__('Income')),
+
             Input::make('trip.distance')
                 ->type('number')
                 ->title(__('Distance'))
