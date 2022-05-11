@@ -53,9 +53,11 @@ class JourneyEditLayout extends Rows
                 ->title('Journey Transactions')
                 ->columns(['name', 'amount', 'comment'])
                 ->fields([
-                    'name'   => Input::make(),
+                    'name'   => Input::make()
+                        ->required(),
                     'amount'   => Input::make()
-                        ->type('number'),
+                        ->type('number')
+                        ->required(),
                     'comment'   => Input::make(),
                 ]),
         ];
