@@ -65,10 +65,11 @@ class FuelTransactionAnalyticsScreen extends Screen
 
             Layout::table('trucks', [
                 TD::make('name', __('Name'))
+                    ->render(fn($e) => ViewHelper::formatTruckName($e))
                     ->cantHide(),
 
                 TD::make('employee', __('Employee'))
-                    ->render(fn($e) => $e->employee->name)
+                    ->render(fn($e) => $e?->employee->name)
                     ->cantHide(),
 
                 TD::make('average_consumption', __('Average Consumption'))

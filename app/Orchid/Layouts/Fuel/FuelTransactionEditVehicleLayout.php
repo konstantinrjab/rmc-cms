@@ -14,7 +14,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 
-class FuelTransactionEditLayout extends Rows
+class FuelTransactionEditVehicleLayout extends Rows
 {
     /**
      * Views.
@@ -29,23 +29,6 @@ class FuelTransactionEditLayout extends Rows
         $trucksOptions = $trucks->map(fn($e) => ViewHelper::formatTruckName($e));
 
         return [
-            Select::make('fuelTransaction.transaction_type')
-                ->required()
-                ->options([
-                    FuelTransaction::TYPE_INCOME  => __('Income'),
-                    FuelTransaction::TYPE_EXPENSE => __('Expense'),
-                ])
-                ->empty()
-                ->title('Transaction type')
-                ->help('Fuel balance. Refueling your truck is fuel consumption, refueling your gas station is fuel replenishment'),
-
-            Select::make('fuelTransaction.fuel_type')
-                ->required()
-                ->options([
-                    'diesel' => 'Diesel',
-                ])
-                ->hidden()
-                ->title('Fuel Type'),
 
             Input::make('fuelTransaction.quantity')
                 ->type('number')
@@ -53,14 +36,14 @@ class FuelTransactionEditLayout extends Rows
                 ->title(__('Quantity')),
 
             Select::make('fuelTransaction.source_id')
-                ->options(FuelTransaction::getSources())
+                ->options(FuelTransaction::getSources([FuelTransaction::TYPE_SOURCE_OWN_STATION, FuelTransaction::TYPE_SOURCE_AMIC]))
                 ->required()
                 ->empty()
                 ->title('Source'),
 
             Select::make('fuelTransaction.consumer_type')
                 ->required()
-                ->options(ViewHelper::selectOptions([FuelTransaction::TYPE_TRUCK, FuelTransaction::TYPE_OWN_STATION, FuelTransaction::TYPE_OTHER]))
+                ->options(ViewHelper::selectOptions([FuelTransaction::TYPE_TRUCK, FuelTransaction::TYPE_OTHER]))
                 ->empty()
                 ->title('Consumer Type'),
 
@@ -92,6 +75,16 @@ class FuelTransactionEditLayout extends Rows
                 ->title('Date')
                 ->help('Transaction date'),
 
+
+            Input::make('fuelTransaction.transaction_type')
+                ->required()
+                ->value(FuelTransaction::TYPE_EXPENSE)
+                ->hidden(),
+
+            Input::make('fuelTransaction.fuel_type')
+                ->required()
+                ->hidden()
+                ->value(FuelTransaction::TYPE_FUEL_DIESEL),
         ];
     }
 }

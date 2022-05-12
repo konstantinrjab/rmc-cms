@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Fuel;
 
 use App\Models\FuelTransaction;
-use App\Orchid\Layouts\Fuel\FuelTransactionEditLayout;
+use App\Orchid\Layouts\Fuel\FuelTransactionEditOwnStationLayout;
+use App\Orchid\Layouts\Fuel\FuelTransactionEditVehicleLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
@@ -80,9 +81,14 @@ class FuelTransactionEditScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [
+        if (!$this->fuelTransaction->exists) {
+            $isVehicle = request('type') == 'vehicle';
+        } else {
+            $isVehicle = $this->fuelTransaction->transaction_type == FuelTransaction::TYPE_EXPENSE;
+        }
 
-            Layout::block(FuelTransactionEditLayout::class)
+        return [
+            Layout::block($isVehicle ? FuelTransactionEditVehicleLayout::class : FuelTransactionEditOwnStationLayout::class)
                 ->title(__('Fill out the form.'))
                 ->commands(
                     Button::make(__('Save'))
@@ -90,8 +96,7 @@ class FuelTransactionEditScreen extends Screen
                         ->icon('check')
                         ->canSee($this->fuelTransaction->exists)
                         ->method('save')
-                ),
-
+                )
         ];
     }
 

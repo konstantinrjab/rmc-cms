@@ -50,7 +50,7 @@ class TruckListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([Truck::STATUS_IDLE, Truck::STATUS_UNDER_REPAIR]))
                 ->render(function (Truck $truck) {
-                    $activeTrip = $truck->employee->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
+                    $activeTrip = $truck->trips->first(fn($e) => $e->delivery_status == Trip::DELIVERY_STATUS_IN_PROGRESS);
 
                     if ($activeTrip) {
                         return '<a href="' . route('platform.trips.edit', $activeTrip->id) . '"><span class="text-success fw-bolder">' . __('On the way') . '</span></a>';

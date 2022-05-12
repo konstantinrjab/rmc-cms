@@ -50,7 +50,8 @@
         "ide": [
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:models -M",
-            "@php artisan ide-helper:meta"
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:eloquent"
         ],
         "fresh": "XDEBUG_MODE=off php artisan migrate:fresh --seed"
     },

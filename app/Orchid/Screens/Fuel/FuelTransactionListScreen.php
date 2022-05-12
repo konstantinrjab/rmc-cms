@@ -30,9 +30,13 @@ class FuelTransactionListScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Link::make(__('Add'))
+            Link::make(__('Add For Own Station'))
                 ->icon('plus')
-                ->route('platform.fuel_transactions.create'),
+                ->route('platform.fuel_transactions.create', ['type' => 'own-station']),
+
+            Link::make(__('Add For Vehicle'))
+                ->icon('plus')
+                ->route('platform.fuel_transactions.create', ['type' => 'vehicle']),
         ];
     }
 

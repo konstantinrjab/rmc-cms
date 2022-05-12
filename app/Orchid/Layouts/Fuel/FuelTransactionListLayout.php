@@ -42,7 +42,7 @@ class FuelTransactionListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, ViewHelper::selectOptions([FuelTransaction::TYPE_EXPENSE, FuelTransaction::TYPE_INCOME]))
                 ->render(function (FuelTransaction $transaction) {
-                    return $transaction->transaction_type;
+                    return __($transaction->transaction_type);
                 }),
 
             TD::make('quantity', __('Quantity'))
