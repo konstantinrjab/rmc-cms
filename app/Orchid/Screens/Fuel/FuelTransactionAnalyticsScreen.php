@@ -8,8 +8,12 @@ use App\Models\Trip;
 use App\Models\Truck;
 use App\Orchid\Layouts\Fuel\FuelConsumptionChart;
 use Illuminate\Support\Collection;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Fields\DateTimer;
+use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
+use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 
 class FuelTransactionAnalyticsScreen extends Screen
@@ -17,7 +21,16 @@ class FuelTransactionAnalyticsScreen extends Screen
     public function query(): iterable
     {
         $data = [];
-        $transactions = FuelTransaction::with(['operator', 'truck'])->get();
+        $transactions = FuelTransaction::with(['operator', 'truck']);
+
+        if ($dateFrom = request('date_from')) {
+            $transactions->where('datetime', '>=', $dateFrom);
+        }
+        if ($dateTo = request('date_to')) {
+            $transactions->where('datetime', '<=', $dateTo);
+        }
+
+        $transactions = $transactions->get();
         /** @var Collection $byTrucks */
         $byTrucks = $transactions->filter(fn($e) => $e->truck_id)->groupBy('truck_id');
 
@@ -43,6 +56,8 @@ class FuelTransactionAnalyticsScreen extends Screen
                 'consumption'   => ['value' => number_format($consumption->pluck('quantity')->sum())],
                 'replenishment' => ['value' => number_format($replenishment->pluck('quantity')->sum())],
             ],
+            'date_from'        => $dateFrom,
+            'date_to'          => $dateTo,
         ];
     }
 
@@ -54,6 +69,27 @@ class FuelTransactionAnalyticsScreen extends Screen
     public function layout(): iterable
     {
         return [
+            Layout::rows([
+                Group::make([
+
+                    DateTimer::make('date_from')
+                        ->format('Y-m-d')
+                        ->required()
+                        ->title('Date From'),
+
+                    DateTimer::make('date_to')
+                        ->format('Y-m-d')
+                        ->required()
+                        ->title('Date To'),
+
+                ]),
+
+                Button::make(__('Apply'))
+                    ->icon('check')->type(Color::DEFAULT())
+                    ->set('formmethod', 'get'),
+
+            ]),
+
             Layout::columns([
                 FuelConsumptionChart::class,
             ]),
