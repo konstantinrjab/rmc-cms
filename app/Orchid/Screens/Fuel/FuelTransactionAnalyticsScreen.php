@@ -7,6 +7,7 @@ use App\Models\FuelTransaction;
 use App\Models\Trip;
 use App\Models\Truck;
 use App\Orchid\Layouts\Fuel\FuelConsumptionChart;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\DateTimer;
@@ -20,10 +21,11 @@ class FuelTransactionAnalyticsScreen extends Screen
 {
     public function query(): iterable
     {
-        $data = [];
         $transactions = FuelTransaction::with(['operator', 'truck']);
 
-        if ($dateFrom = request('date_from')) {
+        $dateFrom = request()->has('date_from') ? request('date_from') : Carbon::now()->subDays(7)->format('Y-m-d');
+
+        if ($dateFrom) {
             $transactions->where('datetime', '>=', $dateFrom);
         }
         if ($dateTo = request('date_to')) {
@@ -34,27 +36,50 @@ class FuelTransactionAnalyticsScreen extends Screen
         /** @var Collection $byTrucks */
         $byTrucks = $transactions->filter(fn($e) => $e->truck_id)->groupBy('truck_id');
 
-        foreach ($byTrucks as $byTruck) {
+        $consumptionByTruck = [];
 
-            $data[ViewHelper::formatTruckName($byTruck->first()->truck)] = $byTruck->sum(fn($e) => $e->quantity);
+        foreach ($byTrucks as $grouped) {
+
+            $consumptionByTruck[ViewHelper::formatTruckName($grouped->first()->truck)] = $grouped->sum(fn($e) => $e->quantity);
         }
-        $data['Other'] = $transactions->filter(fn($e) => empty($e->truck_id))->sum(fn($e) => $e->quantity);
+        $consumptionByTruck['Other'] = $transactions->filter(fn($e) => empty($e->truck_id))->sum(fn($e) => $e->quantity);
 
         $consumption = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_EXPENSE);
         $replenishment = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_INCOME);
+
+        $truckConsumptionOwnStation = $consumption
+            ->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION && $e->truck_id)
+            ->pluck('quantity')
+            ->sum();
+        $truckConsumptionNotOwnStation = $consumption
+            ->filter(fn($e) => $e->source_id != FuelTransaction::TYPE_SOURCE_OWN_STATION && $e->truck_id)
+            ->pluck('quantity')
+            ->sum();
 
         return [
             'fuelTransactions' => [
                 [
                     'name'   => 'Consumption',
-                    'values' => array_values($data),
-                    'labels' => array_keys($data),
+                    'values' => array_values($consumptionByTruck),
+                    'labels' => array_keys($consumptionByTruck),
                 ]
             ],
             'trucks'           => Truck::with(['fuelTransactions', 'trips'])->get(),
             'metrics'          => [
-                'consumption'   => ['value' => number_format($consumption->pluck('quantity')->sum())],
-                'replenishment' => ['value' => number_format($replenishment->pluck('quantity')->sum())],
+                'overall' => [
+                    'consumption'   => ['value' => number_format($consumption->pluck('quantity')->sum())],
+                    'replenishment' => ['value' => number_format($replenishment->pluck('quantity')->sum())],
+                ],
+                'truck' => [
+                    'consumption_own_station'     => ['value' => number_format($truckConsumptionOwnStation)],
+                    'consumption_not_own_station' => ['value' => number_format($truckConsumptionNotOwnStation)],
+                ],
+
+                'own_station' => [
+                    'consumption_trucks' => ['value' => number_format($consumption->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION)->pluck('quantity')->sum())],
+                    'consumption_not_trucks' => ['value' => number_format($consumption->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION && !$e->truck_id)->pluck('quantity')->sum())],
+                    'replenishment' => ['value' => number_format($replenishment->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION)->pluck('quantity')->sum())],
+                ],
             ],
             'date_from'        => $dateFrom,
             'date_to'          => $dateTo,
@@ -90,46 +115,67 @@ class FuelTransactionAnalyticsScreen extends Screen
 
             ]),
 
-            Layout::columns([
-                FuelConsumptionChart::class,
-            ]),
+            Layout::tabs([
 
-            Layout::metrics([
-                'Overall Consumption'   => 'metrics.consumption',
-                'Overall Replenishment' => 'metrics.replenishment',
-            ]),
+                __('Trucks') => [
 
-            Layout::table('trucks', [
-                TD::make('name', __('Name'))
-                    ->render(fn($e) => ViewHelper::formatTruckName($e))
-                    ->cantHide(),
+                    Layout::metrics([
+                        'Consumption Own Station'     => 'metrics.truck.consumption_own_station',
+                        'Consumption Not Own Station' => 'metrics.truck.consumption_not_own_station',
+                    ]),
 
-                TD::make('employee', __('Employee'))
-                    ->render(fn($e) => $e?->employee->name)
-                    ->cantHide(),
+                    Layout::columns([
+                        FuelConsumptionChart::class,
+                    ]),
 
-                TD::make('average_consumption', __('Average Consumption'))
-                    ->render(function (Truck $truck) {
-                        $consumption = $truck->fuelTransactions->isEmpty() ? 0 : $truck->fuelTransactions->sum(fn($e) => $e->quantity);
+                    Layout::table('trucks', [
+                        TD::make('name', __('Name'))
+                            ->render(fn($e) => ViewHelper::formatTruckName($e))
+                            ->cantHide(),
 
-                        $firstTrip = Trip::where(['truck_id' => $truck->id])->orderBy('start_time')->first();
+                        TD::make('employee', __('Employee'))
+                            ->render(fn($e) => $e?->employee->name)
+                            ->cantHide(),
 
-                        $warning = null;
-                        if (!$firstTrip) {
-                            $warning = '<span class="text-info">' . __('No trips found') . '</span>';
-                        } elseif ($firstTrip->fuel_remains) {
-                            $consumption -= $firstTrip->fuel_remains;
-                        } else {
-                            $warning = '<a href="' . route('platform.trips.edit', $firstTrip->id) . '" class="text-right"><span class="text-info">' . __('Add fuel remains to the first trip') . '</span></a>';
-                        }
+                        TD::make('average_consumption', __('Average Consumption'))
+                            ->render(function (Truck $truck) {
+                                $consumption = $truck->fuelTransactions->isEmpty() ? 0 : $truck->fuelTransactions->sum(fn($e) => $e->quantity);
 
-                        $distance = $truck->trips->isEmpty() ? 0 : $truck->trips->sum(fn($e) => $e->distance);
+                                $firstTrip = Trip::where(['truck_id' => $truck->id])->orderBy('start_time')->first();
 
-                        return '<span class="text-left">' . ViewHelper::averageFuelConsumption($consumption, $distance) . '</span>' . ($warning ? ' ' . $warning : '');
-                    })
-                    ->cantHide(),
+                                $warning = null;
+                                if (!$firstTrip) {
+                                    $warning = '<span class="text-info">' . __('No trips found') . '</span>';
+                                } elseif ($firstTrip->fuel_remains) {
+                                    $consumption -= $firstTrip->fuel_remains;
+                                } else {
+                                    $warning = '<a href="' . route('platform.trips.edit', $firstTrip->id) . '" class="text-right"><span class="text-info">' . __('Add fuel remains to the first trip') . '</span></a>';
+                                }
+
+                                $distance = $truck->trips->isEmpty() ? 0 : $truck->trips->sum(fn($e) => $e->distance);
+
+                                return '<span class="text-left">' . ViewHelper::averageFuelConsumption($consumption, $distance) . '</span>' . ($warning ? ' ' . $warning : '');
+                            })
+                            ->cantHide(),
+                    ])
+                        ->title(__('Consumption by truck')),
+                ],
+
+                __('Overall') => [
+
+                    Layout::metrics([
+                        'Overall Consumption'   => 'metrics.overall.consumption',
+                        'Overall Replenishment' => 'metrics.overall.replenishment',
+                    ])->title('Overall'),
+
+                    Layout::metrics([
+                        'Trucks Consumption'   => 'metrics.own_station.consumption_trucks',
+                        'Not Trucks Consumption'   => 'metrics.own_station.consumption_not_trucks',
+                        'Overall Replenishment' => 'metrics.own_station.replenishment',
+                    ])->title('Own Station'),
+                ],
+
             ])
-                ->title(__('Consumption by truck')),
         ];
     }
 }
