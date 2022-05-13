@@ -45,7 +45,8 @@ class JourneyItemScreen extends Screen
         }
 
         $distance = 0;
-        $fuelReplenishmentTotal = 0;
+        $fuelReplenishmentOwnStationTotal = 0;
+        $fuelReplenishmentNotOwnStationTotal = 0;
 
         foreach ($trips as $trip) {
             $distance += $trip->distance;
@@ -57,11 +58,16 @@ class JourneyItemScreen extends Screen
                 'transaction_type' => FuelTransaction::TYPE_EXPENSE,
             ])
                 ->whereBetween('datetime', [$trips->first()->start_time, $trips->last()->finish_time])
-                ->get()
-                ->sum(fn($e) => $e->quantity);
+                ->get();
 
-            $fuelReplenishmentTotal += $fuelReplenishment;
+            $fuelReplenishmentOwnStationTotal += $fuelReplenishment
+                ->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_OWN_STATION)
+                ->sum(fn($e) => $e->quantity);
+            $fuelReplenishmentNotOwnStationTotal += $fuelReplenishment
+                ->filter(fn($e) => $e->source_id != FuelTransaction::TYPE_OWN_STATION)
+                ->sum(fn($e) => $e->quantity);
         }
+        $fuelReplenishmentTotal = $fuelReplenishmentOwnStationTotal + $fuelReplenishmentNotOwnStationTotal;
 
         $fuelUsed = $startFuel && $finishFuel ? $startFuel - $finishFuel + $fuelReplenishmentTotal : null;
 
@@ -82,7 +88,7 @@ class JourneyItemScreen extends Screen
             'journey.date_to'      => $journey->date_to->format('d.m.y'),
             'journey.duration'     => $journey->date_to->diffInDays($journey->date_from),
 
-            'fuel.replenishment' => $fuelReplenishmentTotal,
+            'fuel.replenishment' => $fuelReplenishmentTotal . " ($fuelReplenishmentOwnStationTotal " . __('own') ." + $fuelReplenishmentNotOwnStationTotal)",
             'fuel.used'          => $fuelUsed,
             'fuel.consumption'   => ViewHelper::averageFuelConsumption($fuelUsed, $distance) . ' ' . __('l/100 km'),
             'fuel.distance'      => $distance,

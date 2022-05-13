@@ -79,7 +79,7 @@ class TripEditLayout extends Rows
             Select::make('trip.payment_status')
                 ->required()
                 ->empty()
-                ->options(ViewHelper::selectOptions([Trip::PAYMENT_STATUS_PAYED, Trip::PAYMENT_STATUS_NO_INVOICE, Trip::PAYMENT_STATUS_INVOICE_SENT]))
+                ->options(ViewHelper::selectOptions([Trip::PAYMENT_STATUS_PAYED, Trip::PAYMENT_STATUS_NO_INVOICE, Trip::PAYMENT_STATUS_INVOICE_SENT, Trip::PAYMENT_STATUS_NOT_NEEDED]))
                 ->title(__('Payment Status')),
 
             Input::make('trip.income')

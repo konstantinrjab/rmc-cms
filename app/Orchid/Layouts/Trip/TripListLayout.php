@@ -89,6 +89,7 @@ class TripListLayout extends Table
                         Trip::PAYMENT_STATUS_PAYED => '<span class="text-success">' . __(Trip::PAYMENT_STATUS_PAYED) . '</span>',
                         Trip::PAYMENT_STATUS_NO_INVOICE => '<span class="text-danger">' . __(Trip::PAYMENT_STATUS_NO_INVOICE) . '</span>',
                         Trip::PAYMENT_STATUS_INVOICE_SENT => '<span class="text-info">' . __(Trip::PAYMENT_STATUS_INVOICE_SENT) . '</span>',
+                        Trip::PAYMENT_STATUS_NOT_NEEDED => '<span class="text-secondary">' . __(Trip::PAYMENT_STATUS_NOT_NEEDED) . '</span>',
                     };
                 }),
 

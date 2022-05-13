@@ -23,6 +23,7 @@ class Trip extends Model
     public const PAYMENT_STATUS_PAYED = 'payed';
     public const PAYMENT_STATUS_INVOICE_SENT = 'invoice sent';
     public const PAYMENT_STATUS_NO_INVOICE = 'no invoice';
+    public const PAYMENT_STATUS_NOT_NEEDED = 'not needed';
 
     protected $fillable = [
         'journey_id',
