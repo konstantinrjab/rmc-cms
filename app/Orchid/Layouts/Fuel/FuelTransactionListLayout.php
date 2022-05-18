@@ -34,6 +34,10 @@ class FuelTransactionListLayout extends Table
                 ->sort()
                 ->filter(TD::FILTER_SELECT, $truckOptions)
                 ->render(function (FuelTransaction $transaction) {
+                    if ($transaction->consumer_type == FuelTransaction::TYPE_OWN_STATION) {
+                        return '<span class="text-info">' . __('Own Station') . '</span>';
+                    }
+
                     return $transaction->truck ? ViewHelper::formatTruckName($transaction->truck) : "<span class='text-warning'>$transaction->comment</span>";
                 }),
 

@@ -84,30 +84,25 @@ class TripEditLayout extends Rows
 
             Input::make('trip.income')
                 ->type('number')
-                ->title(__('Income'))
-                ->placeholder(__('Income')),
+                ->title(__('Income')),
 
             Input::make('trip.distance')
                 ->type('number')
-                ->title(__('Distance'))
-                ->placeholder(__('Distance')),
+                ->title(__('Distance')),
 
             Input::make('trip.fuel_remains')
                 ->type('number')
-                ->title(__('Fuel Remains'))
-                ->placeholder(__('Fuel Remains')),
+                ->title(__('Fuel Remains')),
 
             DateTimer::make('trip.start_time')
                 ->format24hr()
                 ->enableTime()
-                ->title('Start Time')
-                ->help('Start Time'),
+                ->title('Start Time'),
 
             DateTimer::make('trip.finish_time')
                 ->format24hr()
                 ->enableTime()
-                ->title('Finish Time')
-                ->help('Finish Time'),
+                ->title('Finish Time'),
         ];
     }
 }

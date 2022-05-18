@@ -42,7 +42,7 @@ class FuelTransactionAnalyticsScreen extends Screen
 
             $consumptionByTruck[ViewHelper::formatTruckName($grouped->first()->truck)] = $grouped->sum(fn($e) => $e->quantity);
         }
-        $consumptionByTruck['Other'] = $transactions->filter(fn($e) => empty($e->truck_id))->sum(fn($e) => $e->quantity);
+        $consumptionByTruck['Other'] = $transactions->filter(fn($e) => empty($e->truck_id) && $e->consumer_type != FuelTransaction::TYPE_OWN_STATION)->sum(fn($e) => $e->quantity);
 
         $consumption = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_EXPENSE);
         $replenishment = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_INCOME);
@@ -70,15 +70,15 @@ class FuelTransactionAnalyticsScreen extends Screen
                     'consumption'   => ['value' => number_format($consumption->pluck('quantity')->sum())],
                     'replenishment' => ['value' => number_format($replenishment->pluck('quantity')->sum())],
                 ],
-                'truck' => [
+                'truck'   => [
                     'consumption_own_station'     => ['value' => number_format($truckConsumptionOwnStation)],
-                    'consumption_not_own_station' => ['value' => number_format($truckConsumptionNotOwnStation)],
+                    'consumption_other' => ['value' => number_format($truckConsumptionNotOwnStation)],
                 ],
 
                 'own_station' => [
-                    'consumption_trucks' => ['value' => number_format($consumption->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION)->pluck('quantity')->sum())],
+                    'consumption_trucks'     => ['value' => number_format($consumption->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION)->pluck('quantity')->sum())],
                     'consumption_not_trucks' => ['value' => number_format($consumption->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION && !$e->truck_id)->pluck('quantity')->sum())],
-                    'replenishment' => ['value' => number_format($replenishment->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION)->pluck('quantity')->sum())],
+                    'replenishment'          => ['value' => number_format($replenishment->filter(fn($e) => $e->source_id == FuelTransaction::TYPE_SOURCE_OWN_STATION)->pluck('quantity')->sum())],
                 ],
             ],
             'date_from'        => $dateFrom,
@@ -120,8 +120,8 @@ class FuelTransactionAnalyticsScreen extends Screen
                 __('Trucks') => [
 
                     Layout::metrics([
-                        'Consumption Own Station'     => 'metrics.truck.consumption_own_station',
-                        'Consumption Not Own Station' => 'metrics.truck.consumption_not_own_station',
+                        'Consumption: Own Station' => 'metrics.truck.consumption_own_station',
+                        'Consumption: Other'       => 'metrics.truck.consumption_other',
                     ]),
 
                     Layout::columns([
@@ -166,12 +166,12 @@ class FuelTransactionAnalyticsScreen extends Screen
                     Layout::metrics([
                         'Overall Consumption'   => 'metrics.overall.consumption',
                         'Overall Replenishment' => 'metrics.overall.replenishment',
-                    ])->title('Overall'),
+                    ]),
 
                     Layout::metrics([
-                        'Trucks Consumption'   => 'metrics.own_station.consumption_trucks',
-                        'Not Trucks Consumption'   => 'metrics.own_station.consumption_not_trucks',
-                        'Overall Replenishment' => 'metrics.own_station.replenishment',
+                        'Trucks Consumption'     => 'metrics.own_station.consumption_trucks',
+                        'Not Trucks Consumption' => 'metrics.own_station.consumption_not_trucks',
+                        'Overall Replenishment'  => 'metrics.own_station.replenishment',
                     ])->title('Own Station'),
                 ],
 
