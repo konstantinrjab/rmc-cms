@@ -42,7 +42,7 @@ class FuelTransactionAnalyticsScreen extends Screen
 
             $consumptionByTruck[ViewHelper::formatTruckName($grouped->first()->truck)] = $grouped->sum(fn($e) => $e->quantity);
         }
-        $consumptionByTruck['Other'] = $transactions->filter(fn($e) => empty($e->truck_id) && $e->consumer_type != FuelTransaction::TYPE_OWN_STATION)->sum(fn($e) => $e->quantity);
+        $consumptionByTruck[__('Other')] = $transactions->filter(fn($e) => empty($e->truck_id) && $e->consumer_type != FuelTransaction::TYPE_OWN_STATION)->sum(fn($e) => $e->quantity);
 
         $consumption = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_EXPENSE);
         $replenishment = $transactions->filter(fn($transaction) => $transaction->transaction_type == FuelTransaction::TYPE_INCOME);
