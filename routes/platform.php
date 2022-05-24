@@ -311,7 +311,7 @@ Route::screen('fuel-transactions/analytics', \App\Orchid\Screens\Fuel\FuelTransa
     ->name('platform.fuel_transactions.analytics')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
-            ->parent('platform.index')
+            ->parent('platform.fuel_transactions')
             ->push(__('Analytics'), route('platform.fuel_transactions.analytics'));
     });
 
