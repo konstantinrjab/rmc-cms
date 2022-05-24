@@ -89,8 +89,8 @@ class JourneyItemScreen extends Screen
             'journey.duration'     => $journey->date_to->diffInDays($journey->date_from),
 
             'fuel.replenishment' => $fuelReplenishmentTotal . " ($fuelReplenishmentOwnStationTotal " . __('own') ." + $fuelReplenishmentNotOwnStationTotal)",
-            'fuel.used'          => $fuelUsed,
-            'fuel.consumption'   => ViewHelper::averageFuelConsumption($fuelUsed, $distance) . ' ' . __('l/100 km'),
+            'fuel.used'          => $fuelUsed ?: '-',
+            'fuel.consumption'   => $fuelUsed ? ViewHelper::averageFuelConsumption($fuelUsed, $distance) . ' ' . __('l/100 km') : '-',
             'fuel.distance'      => $distance,
 
             'transactions.income'  => $income,
