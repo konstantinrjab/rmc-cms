@@ -38,7 +38,7 @@ class FuelTransactionListLayout extends Table
                         return '<span class="text-info">' . __('Own Station') . '</span>';
                     }
 
-                    return $transaction->truck ? ViewHelper::formatTruckName($transaction->truck) : "<span class='text-warning'>$transaction->comment</span>";
+                    return $transaction->truck ? ViewHelper::formatTruckName($transaction->truck) : "<span class='text-primary'>$transaction->comment</span>";
                 }),
 
             TD::make('transaction_type', __('Transaction Type'))
