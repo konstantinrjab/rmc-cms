@@ -134,7 +134,7 @@ class FuelTransactionAnalyticsScreen extends Screen
                             ->cantHide(),
 
                         TD::make('employee', __('Employee'))
-                            ->render(fn($e) => $e?->employee->name)
+                            ->render(fn($e) => $e?->employee?->name)
                             ->cantHide(),
 
                         TD::make('average_consumption', __('Average Consumption'))
